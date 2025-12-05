@@ -1,0 +1,134 @@
+ru:
+  buttons:
+    add: "Добавить"
+    delete: "Удалить"
+    add_city: "Добавить город"
+    streets: "Улицы"
+  avito:
+    statistics:
+      views: "Просмотры"
+      contacts: "Контакты"
+      favorites: "В избранном"
+      presenceSpending: "Расходы на продвижение"
+      impressions: "Показы"
+    autoload:
+      upload_url: "Ссылка на файл"
+      autoload_enabled: "Автозагрузка"
+      report_email: "Электронная почта для отчетов"
+      schedule: "Расписание"
+      rate: "Объявлений за период"
+      weekdays: "Дни недели"
+      time_slots: "Часы"
+      report:
+        report_id: "Отчет"
+        started_at: "Время начала выгрузки"
+        section_stats: "Подробности"
+        status: "Статус"
+        success_warning: "C проблемами"
+        error: "Ошибки"
+        per_page: "На странице"
+        page: "Страница"
+        pages: "Страниц"
+        total: "Всего"
+    notice:
+      upd_autoload_conf: "Успешно обновлены настройки автозагрузки"
+      upd_ads: "Успешно запущен процесс обновления объявлений из Excel-feed."
+    error:
+      set_store: "Не задан для магазина client_id или client_secret или магазин отсутствует в базе."
+      set_avito: "Ошибка обновления Авито токена! Возможно магазин заблокирован"
+      upd_autoload_conf: "Ошибка параметров JSON. Настройки автозагрузки не были изменены."
+      upd_ads: "Ошибка запуска обновления!"
+    job:
+      check_deleted:
+        one: "✅ На аккаунте %{name} удалено %{count} объявление."
+        few: "✅ На аккаунте %{name} удалено %{count} объявления."
+        many: "✅ На аккаунте %{name} удалено %{count} объявлений."
+        other: "✅ На аккаунте %{name} удалено %{count} объявлений."
+      check_errors:
+        one: "✅ Для аккаунта %{name} добавлено %{count} объявление в бан."
+        few: "✅ Для аккаунта %{name} добавлено %{count} объявления в бан."
+        many: "✅ Для аккаунта %{name} добавлено %{count} объявлений в бан."
+        other: "✅ Для аккаунта %{name} добавлено %{count} объявлений в бан."
+  pagy:
+    aria_label:
+      nav:
+        one: "Страница"
+        few: "Страницы"
+        many: "Страниц"
+        other: "Страниц"
+      prev: "Назад"
+      next: "Вперёд"
+    prev: "&lt;"
+    next: "&gt;"
+    gap: "&hellip;"
+    item_name:
+      one: "запись"
+      few: "записи"
+      many: "записей"
+      other: "записей"
+    info:
+      no_items: "Пока %{item_name} нет"
+      single_page: "%{count} %{item_name}"
+      multiple_pages: "Всего %{count} %{item_name}, показаны с %{from} по %{to}"
+    combo_nav_js: "Страница %{page_input} из %{pages}"
+    limit_selector_js: "Показать %{limit_input} %{item_name} на странице"
+  settings:
+    create:
+      success: "Настройка %{var} была успешно добавлена."
+    update:
+      success: "Настройка %{var} была успешно обновлена."
+  ads:
+    update_all:
+      success: "Все объявления были сняты с бана!"
+  jobs:
+    top_games:
+      add:
+        one: "Добавлена %{count} новое объявление."
+        few: "Добавлено %{count} новых объявления."
+        many: "Добавлено %{count} новых объявлений."
+        other: "Добавлено %{count} новых объявлений."
+      price:
+        one: "Обновлена цена у %{count} объявления."
+        few: "Обновлена цена у %{count} объявлений."
+        many: "Обновлена цена у %{count} объявлений."
+        other: "Обновлена цена у %{count} объявлений."
+    update_promotion:
+      success: "Фоновая задача по обновлению рекламных объявлений успешно запущена."
+    stop_promotion:
+      success: "Фоновая задача по остановке рекламных объявлений успешно запущена."
+  controllers:
+    address: "Город %{city} был успешно удален."
+    GameBlackLists:
+      success:
+      error:
+    avito:
+      autoload:
+        update: "Запущен процесс обновления параметров автозагрузки Авито аккаунта %{name}"
+      settings:
+        success: "Успешно обновлены настройки webhook."
+        error: "Ошибка обновления webhook."
+    jobs:
+      update_ban_list:
+        success: "Фоновая задача по обновлению списка заблокированных объявлений для магазина %{name} успешно запущена."
+        error: "Ошибка запуска фоновой задачи по обновлению списка заблокированных объявлений для магазина %{name}, возможно магазин не активен!"
+      update_feed:
+        success: "Фоновая задача по обновлению фида для магазина %{name} успешно запущена."
+        error: "Ошибка запуска фоновой задачи по обновлению фида, возможно магазин не активен или не существует!"
+      update_img:
+        success: "Фоновая задача по %{job_type} картинок для %{models} успешно запущена."
+    streets:
+      create: "Улица %{name} была успешно добавлена."
+      update: "Улица %{name} была успешно обновлена."
+      destroy: "Улица %{name} была успешно удалена."
+  confirm:
+    game: "Вы уверены, что хотите удалить объявление?"
+    ad: "Вы уверены, что хотите очистить бан лист?"
+  activerecord:
+    models:
+      ad: "Объявление"
+    attributes:
+      ad:
+        banned: "Забанено"
+        deleted: "Удалено"
+        banned_until: "Бан до"
+        full_address: "Адрес"

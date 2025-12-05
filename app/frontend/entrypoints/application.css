@@ -1,0 +1,10 @@
+@import "../styles/application.scss";
+@import "../styles/notice.scss";
+@import "../styles/actiontext.scss";
+@import "../styles/colors.css";
+/*@import "../styles/fonts.css";*/
+
+@source "../../../app/components/**/*.html.slim";
+@source "../../../app/views/**/*.html.erb";
+@source "../../../app/views/**/*.html.slim";
+@source "../../../app/helpers/**/*.rb";
