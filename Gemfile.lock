@@ -99,6 +99,9 @@ GEM
     bullet (8.1.0)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
+    bundler-audit (0.9.3)
+      bundler (>= 1.2.0)
+      thor (~> 1.0)
     coderay (1.1.3)
     concurrent-ruby (1.3.5)
     connection_pool (3.0.1)
@@ -426,6 +429,7 @@ DEPENDENCIES
   bootsnap
   brakeman
   bullet
+  bundler-audit
   devise
   dotenv
   i18n

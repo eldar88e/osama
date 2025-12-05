@@ -36,6 +36,7 @@ gem 'view_component'
 
 group :development, :test do
   gem 'brakeman', require: false
+  gem 'bundler-audit', require: false
   gem 'pry'
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
