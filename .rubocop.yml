@@ -1,0 +1,32 @@
+plugins:
+  - rubocop-performance
+  - rubocop-rails
+
+AllCops:
+  SuggestExtensions: false
+  NewCops: enable
+  Exclude:
+    - 'db/**/*'
+    - 'vendor/**/*' # long check and error in ci
+    - 'spec/**/*'
+    - 'bin/*'
+    - 'config/environments/*.rb'
+    - 'config/initializers/content_security_policy.rb'
+    - 'config/initializers/filter_parameter_logging.rb'
+    - 'config/puma.rb'
+    - 'config/boot.rb'
+    - 'config/application.rb'
+    - 'config/environment.rb'
+    - 'config.ru'
+    - 'Rakefile'
+    - 'config/ci.rb'
+
+Style/Documentation:
+  Enabled: false
+
+# Use `[a, [b, c]]` not `[ a, [ b, c ] ]`
+Layout/SpaceInsideArrayLiteralBrackets:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
