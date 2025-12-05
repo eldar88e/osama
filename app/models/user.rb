@@ -29,7 +29,4 @@ class User < ApplicationRecord
   def self.ransackable_associations(_auth_object = nil)
     %w[]
   end
-
-  private
-
 end
