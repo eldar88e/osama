@@ -1,0 +1,14 @@
+= form_with model: @resource, class: 'admin-form', data: { action: 'submit->modal#close' } do |form|
+  .mb-5
+    = form.label :title
+    = form.text_field :title
+  .mb-5
+    = form.label :price
+    = form.number_field :price, min: 0
+  .mb-5
+    = form.label :duration_minutes
+    = form.number_field :duration_minutes, min: 0
+  .mb-5
+    = form.label :category
+    = form.select :category, Service.categories.keys.map { |k| [t("service.categories.#{k}"), k] }
+  = form.submit @resource.persisted? ? 'Обновить' : 'Создать', class: 'btn'

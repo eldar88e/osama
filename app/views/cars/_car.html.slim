@@ -1,0 +1,21 @@
+tr id="#{dom_id resource}" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+  td class="px-6 py-4" = resource.id
+  th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+    = resource.brand
+  td class="px-6 py-4 whitespace-normal"
+    = resource.model
+  td class="px-6 py-4"
+    = resource.license_plate
+  td class="px-6 py-4"
+    = resource.vin
+  td class="px-6 py-4"
+    = resource.comment
+  td class="flex px-6 py-4 gap-2"
+    = link_to edit_car_path(resource), class: 'btn',
+                data: { controller: 'modal-btn', action: 'click->modal-btn#open', turbo_prefetch: false } do
+      = render IconComponent.new name: :edit
+
+    = button_to car_path(resource), method: :delete, class: 'btn btn-danger',
+                  data: { confirm: 'Вы уверены, что хотите удалить данный автомобиль?',
+                          controller: 'confirm', action: 'click->confirm#call' } do
+      = render IconComponent.new name: :trash

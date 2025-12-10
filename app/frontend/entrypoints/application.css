@@ -1,4 +1,5 @@
 @import "../styles/application.scss";
+@import "../styles/pagy.scss";
 @import "../styles/notice.scss";
 @import "../styles/actiontext.scss";
 @import "../styles/colors.css";

@@ -1,0 +1,59 @@
+services:
+  app:
+    image: crm
+    build: .
+    env_file: ./.env
+    container_name: crm
+    hostname: crm
+    depends_on:
+      - pg
+    command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
+    volumes:
+      - gems:/usr/local/bundle
+      - .:/app
+    networks:
+      net:
+      proxy-net:
+        ipv4_address: 172.29.0.12
+    restart: always
+
+  solid_queue:
+    image: crm
+    build: .
+    env_file: ./.env
+    container_name: crm_solid_queue
+    hostname: crm_solid_queue
+    depends_on:
+      - pg
+    command: ['bundle', 'exec', 'rails', 'solid_queue:start']
+    volumes:
+      - gems:/usr/local/bundle
+      - .:/app
+    networks:
+      - net
+    restart: unless-stopped
+
+  pg:
+    image: postgres:18.1
+    container_name: crm_pg
+    hostname: crm_pg
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      TZ: Europe/Moscow
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      # - ./postgresql.conf:/var/lib/postgresql/data/postgresql.conf
+    networks:
+      - net
+    restart: unless-stopped
+
+volumes:
+  db_data:
+  gems:
+
+networks:
+  net:
+  proxy-net:
+    external: true

@@ -7,11 +7,13 @@ gem 'puma', '>= 7.0'
 gem 'stimulus-rails'
 gem 'turbo-rails'
 # gem "jbuilder"
+gem 'sprockets-rails'
 gem 'vite_rails'
 
 gem 'solid_cable'
 gem 'solid_cache'
 gem 'solid_queue'
+gem 'solid_queue_dashboard'
 
 gem 'bootsnap', require: false
 

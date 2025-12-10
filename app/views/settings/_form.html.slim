@@ -1,0 +1,8 @@
+= form_with model: @resource, class: 'admin-form', data: { action: 'submit->modal#close' } do |form|
+  .mb-5
+    = form.label :variable
+    = form.text_field :variable
+  .mb-5
+    = form.label :value
+    = form.text_field :value
+  = form.submit @resource.persisted? ? 'Обновить' : 'Создать', class: 'btn'

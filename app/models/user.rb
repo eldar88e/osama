@@ -6,6 +6,8 @@ class User < ApplicationRecord
 
   enum :role, { user: 0, staff: 1, manager: 2, admin: 3 }
 
+  has_many :cars, inverse_of: :client
+
   def admin?
     role == 'admin'
   end
@@ -22,8 +24,12 @@ class User < ApplicationRecord
     moderator? || admin? || manager?
   end
 
+  def full_name
+    [first_name, middle_name, last_name].compact.join(' ')
+  end
+
   def self.ransackable_attributes(_auth_object = nil)
-    %w[id first_name middle_name last_name username address created_at role is_blocked started email]
+    %w[id email role]
   end
 
   def self.ransackable_associations(_auth_object = nil)

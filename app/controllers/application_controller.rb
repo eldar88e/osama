@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
 
   helper_method :settings
 
+  include Pagy::Method
+
   private
 
   def error_notice(msg, status = :unprocessable_entity)

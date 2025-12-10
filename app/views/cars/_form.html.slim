@@ -1,0 +1,20 @@
+= form_with model: @resource, class: 'admin-form', data: { action: 'submit->modal#close' } do |form|
+  .mb-5
+    = form.label :model
+    = form.text_field :model
+  .mb-5
+    = form.label :brand
+    = form.text_field :brand
+  .mb-5
+    = form.label :user_id
+    = form.select :user_id, User.all.map { |u| [u.full_name.presence || u.email, u.id] }
+  .mb-5
+    = form.label :license_plate
+    = form.text_field :license_plate
+  .mb-5
+    = form.label :vin
+    = form.text_field :vin
+  .mb-5
+    = form.label :comment
+    = form.text_field :comment
+  = form.submit @resource.persisted? ? 'Обновить' : 'Создать', class: 'btn'
