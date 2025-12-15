@@ -33,7 +33,7 @@ gem 'pagy'
 gem 'ransack'
 # gem 'rollbar'
 gem 'slim-rails'
-gem 'telegram-bot-ruby', '~> 2.0'
+gem 'telegram-bot-ruby', '~> 2.5'
 gem 'view_component'
 
 group :development, :test do
