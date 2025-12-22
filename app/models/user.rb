@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   enum :role, { user: 0, staff: 1, manager: 2, admin: 3 }
 
-  has_many :cars, inverse_of: :client
+  has_many :cars, inverse_of: :client, dependent: :destroy
 
   def admin?
     role == 'admin'
