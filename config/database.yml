@@ -17,16 +17,16 @@ test:
 production:
   primary: &primary_production
     <<: *default
-    database: <%= ENV.fetch('DB_NAME') %>
+    database: <%= ENV.fetch('DB_NAME', 'crm_production') %>
   cache:
     <<: *primary_production
-    database: <%= "#{ENV.fetch('DB_NAME')}_cache" %>
+    database: <%= "#{ENV.fetch('DB_NAME', 'crm_production')}_cache" %>
     migrations_paths: db/cache_migrate
   queue:
     <<: *primary_production
-    database: <%= "#{ENV.fetch('DB_NAME')}_queue" %>
+    database: <%= "#{ENV.fetch('DB_NAME', 'crm_production')}_queue" %>
     migrations_paths: db/queue_migrate
   cable:
     <<: *primary_production
-    database: <%= "#{ENV.fetch('DB_NAME')}_cable" %>
+    database: <%= "#{ENV.fetch('DB_NAME', 'crm_production')}_cable" %>
     migrations_paths: db/cable_migrate

@@ -24,22 +24,22 @@
   </head>
 
   <body class="bg-white dark:bg-gray-900 antialiased" data-controller="menu-btn">
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
     <%= render '/partials/notices/notices' %>
-    <header id="header"><%= render partial: '/layouts/header' %></header>
-
+    <header id="header">
+      <%= render partial: '/layouts/header' %>
+    </header>
     <div class="body" id="body">
       <aside id="sidebar" class="sidebar"><%= render partial: '/layouts/aside' %></aside>
 
       <div class="sidebarBackdrop" data-action="click->menu-btn#showMenu"></div>
 
       <div class="main-content" id="main-content" data-menu-btn-target="body">
-        <main><%= yield %></main>
+        <main>
+          <%= yield %>
+        </main>
         <%= render partial: '/layouts/footer' %>
       </div>
     </div>
-
     <%= render partial: '/layouts/modal' %>
   </body>
 </html>
