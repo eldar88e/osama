@@ -7,7 +7,7 @@ services:
     hostname: crm
     depends_on:
       - pg
-    entrypoint: ["./bin/docker-entrypoint"]
+    entrypoint: ["/app/bin/docker-entrypoint"]
 #    command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
     volumes:
       - gems:/usr/local/bundle
