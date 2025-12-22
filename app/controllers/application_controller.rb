@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
   end
 
   def send_notice(msg, key)
-    turbo_stream.append(:notices, partial: '/notices/notice', locals: { notices: msg, key: })
+    turbo_stream.append(:notices, partial: '/partials/notices/notice', locals: { notices: msg, key: })
   end
 
   # rubocop:disable Naming/MemoizedInstanceVariableName

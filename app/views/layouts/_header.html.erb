@@ -3,8 +3,8 @@
     <div class="flex justify-between items-center">
       <div class="flex items-center justify-start">
         <button class="btn-menu text-gray-600 dark:text-gray-400 hover:text-gray-400 hover:dark:text-white cursor-pointer" data-action="click->menu-btn#showMenu">
-          <%= render Admin::IconComponent.new name: :menu, width: 24, klass: 'burger' %>
-          <%= render Admin::IconComponent.new name: :close, width: 24, klass: 'close-menu' %>
+          <%= render IconComponent.new name: :menu, width: 24, klass: 'burger' %>
+          <%= render IconComponent.new name: :close, width: 24, klass: 'close-menu' %>
         </button>
         <%= link_to '/admin', class: 'text-white rounded-sm' do %>
           <%= render IconComponent.new name: :logo, width: 80, height: 32 %>
