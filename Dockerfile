@@ -7,19 +7,9 @@ RUN apk --update add --no-cache \
     yarn \
     libc6-compat \
     postgresql-dev \
-    postgresql-client \
-    redis \
     curl \
-    libffi-dev \
     ruby-dev \
-    vips \
     vips-dev \
-    libjpeg-turbo-dev \
-    libpng-dev \
-    libwebp-dev \
-    libheif-dev \
-    imagemagick \
-    imagemagick-dev \
     && rm -rf /var/cache/apk/*
 
 ENV BUNDLE_DEPLOYMENT="1" \
