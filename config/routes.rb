@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  root 'pages#home'
+
   devise_for :users
 
   # get 'up' => 'rails/health#show', as: :rails_health_check
@@ -17,5 +19,5 @@ Rails.application.routes.draw do
   resources :users
   resources :services
 
-  root 'pages#home'
+  draw :admin
 end

@@ -8,6 +8,8 @@ class User < ApplicationRecord
 
   has_many :cars, inverse_of: :client, dependent: :destroy
 
+  before_validation :set_default_attributes, if: :new_record?
+
   def admin?
     role == 'admin'
   end
@@ -34,5 +36,10 @@ class User < ApplicationRecord
 
   def self.ransackable_associations(_auth_object = nil)
     %w[]
+  end
+
+  def set_default_attributes
+    self.email = "user_#{User.last.id + 1}@#{ENV.fetch('EMAIL_HOST', ENV.fetch('HOST'))}" if email.blank?
+    self.password = Devise.friendly_token.first(8)
   end
 end
