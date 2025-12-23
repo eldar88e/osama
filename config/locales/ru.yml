@@ -1,7 +1,11 @@
 ru:
   activerecord:
     models:
-      user: "Пользователь"
+      user:
+        one: "пользователь"
+        few: "пользователя"
+        many: "пользователей"
+        accusative: "пользователя"
       car: "Авто"
       setting: "Настройка"
       service:
@@ -37,6 +41,7 @@ ru:
         actual_address: "Фактический адрес"
         contact_person: "Контактное лицо"
         contact_phone: "Контактный телефон"
+        role: "Роль"
       setting:
         variable: "Переменная"
         value: "Значение"

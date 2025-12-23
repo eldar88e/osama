@@ -12,6 +12,9 @@
     = form.label :email
     = form.text_field :email
   .mb-5
+    = form.label :role
+    = form.select :role, User.roles.keys.map { |k| [t("user.roles.#{k}"), k] }
+  .mb-5
     = form.label :phone
     = form.text_field :phone
   = form.submit @resource.persisted? ? 'Обновить' : 'Создать', class: 'btn'
