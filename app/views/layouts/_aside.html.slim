@@ -1,0 +1,53 @@
+div class="flex-1 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 wrapper-menu"
+  div class="main-sidebar px-3 pb-4 pt-5 overflow-y-auto"
+    ul class="slidebar-menu text-gray-800 dark:text-gray-200"
+      li
+        = active_link_to cars_path, active: :exclusive do
+          = render IconComponent.new name: 'no-image'
+          span.ml-3 Авто
+
+      li
+        = active_link_to analytics_path, target: '_blank' do
+          = render IconComponent.new name: 'no-image'
+          span.ml-3 = settings[:site_name]
+
+
+      li
+        = active_link_to admin_users_path do
+          = render IconComponent.new name: 'no-image'
+          span.ml-3 Пользователи
+
+      li
+        = active_link_to services_path do
+          = render IconComponent.new name: 'no-image'
+          span.ml-3 Услуги
+
+      li
+        = active_link_to analytics_path do
+          = render IconComponent.new name: 'no-image'
+          span.ml-3 Заказы
+
+      li
+        = active_link_to analytics_path do
+          = render IconComponent.new name: 'no-image'
+          span.ml-3 Аутсорс
+
+      li
+        = active_link_to analytics_path do
+          = render IconComponent.new name: 'no-image'
+          span.ml-3 Материалы
+
+      li
+        = active_link_to settings_path, active: :exclusive do
+          = render IconComponent.new name: 'no-image'
+          span.ml-3 Настройки
+
+      li
+        p.mt-7.mb-1 for Admin
+
+      li
+        = link_to '/solid-queue', target: "_blank" do
+          = render IconComponent.new name: 'no-image'
+          span.ml-3 solid-queue
+
+  .footer-sidebar

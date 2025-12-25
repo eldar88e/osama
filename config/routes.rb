@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'pages#home'
+  root 'analytics#index'
 
   devise_for :users
 
@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   resources :settings
   resources :users
   resources :services
+  resources :analytics, only: :index
 
   draw :admin
 end
