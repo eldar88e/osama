@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   resources :users
   resources :services
   resources :analytics, only: :index
+  resources :orders
 
   draw :admin
 end

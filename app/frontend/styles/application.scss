@@ -104,6 +104,7 @@
               align-items: center;
               display: flex;
               transition: all 0.5s;
+              min-height: 40px;
 
               &.active {
                 @apply bg-gray-100 dark:bg-gray-700;

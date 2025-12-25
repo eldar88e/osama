@@ -6,9 +6,7 @@
           <%= render IconComponent.new name: :menu, width: 24, klass: 'burger' %>
           <%= render IconComponent.new name: :close, width: 24, klass: 'close-menu' %>
         </button>
-        <%= link_to '/admin', class: 'text-white rounded-sm' do %>
-          <%= render IconComponent.new name: :logo, width: 80, height: 32 %>
-        <% end %>
+        <%= link_to settings[:site_name], root_path, class: 'text-white rounded-sm' %>
         <div style="height: 46px;"></div>
       </div>
       <div class="flex items-center text-gray-900 dark:text-white">
