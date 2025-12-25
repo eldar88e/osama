@@ -1,1 +1,4 @@
-class BaseController < ApplicationController; end
+module Admin
+  class BaseController < ApplicationController
+  end
+end
