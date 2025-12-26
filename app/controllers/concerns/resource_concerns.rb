@@ -96,6 +96,6 @@ module ResourceConcerns
   def action_title
     return "Добавить #{resource_name_accusative}" if action_name == 'new'
 
-    "Редактировать #{resource_name_accusative} ID: #{@resource.id}"
+    "Редактировать #{resource_name_accusative} ID: ##{@resource.id}"
   end
 end

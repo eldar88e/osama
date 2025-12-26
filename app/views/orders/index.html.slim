@@ -1,4 +1,29 @@
-- content_for :title, 'Заказы'
+- content_for :title, t("activerecord.models.#{@resources.klass.name.downcase}", count: 5).capitalize
 
 .pt-6.px-4
   h1 class="text-xl leading-8 font-semibold text-gray-900 dark:text-white mb-4" = yield(:title)
+
+  = link_to 'Создать', new_order_path, class: 'btn',
+          data: { controller: 'modal-btn', action: 'click->modal-btn#open', turbo_prefetch: false }
+
+.pt-6
+  div class="relative overflow-x-auto shadow-md sm:rounded-lg"
+    table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+      thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+        tr
+          th scope="col" class="px-6 py-3"
+            = sort_link(@q_collection, :id, 'ИД', data: { turbo_prefetch: false })
+          th scope="col" class="px-6 py-3"
+            = sort_link(@q_collection, :state, 'Статус', data: { turbo_prefetch: false })
+          th scope="col" class="px-6 py-3"
+            = sort_link(@q_collection, :variable, 'Клиент', data: { turbo_prefetch: false })
+          th scope="col" class="px-6 py-3"
+            = sort_link(@q_collection, :paid, 'Оплачено', data: { turbo_prefetch: false })
+          th scope="col" class="px-6 py-3" Сумма
+          th scope="col" class="px-6 py-3" Затраты
+          th scope="col" class="px-6 py-3" Дата создания
+          th scope="col" class="px-6 py-3" Действия
+      tbody id="resources"
+        = render partial: '/orders/order', collection: @resources, as: :resource
+
+  = render partial: '/partials/pagy'

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_10_165205) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_25_160655) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -24,6 +24,48 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_10_165205) do
     t.bigint "user_id", null: false
     t.string "vin"
     t.index ["user_id"], name: "index_cars_on_user_id"
+  end
+
+  create_table "order_items", force: :cascade do |t|
+    t.string "comment"
+    t.datetime "created_at", null: false
+    t.string "delivery_comment"
+    t.decimal "delivery_price", precision: 12, scale: 2, default: "0.0", null: false
+    t.string "materials_comment"
+    t.decimal "materials_price", precision: 12, scale: 2, default: "0.0", null: false
+    t.bigint "order_id", null: false
+    t.boolean "paid", default: false, null: false
+    t.bigint "performer_id", null: false
+    t.string "performer_type", null: false
+    t.decimal "price", precision: 12, scale: 2, default: "0.0", null: false
+    t.bigint "service_id", null: false
+    t.string "state", default: "initial", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+    t.index ["paid"], name: "index_order_items_on_paid"
+    t.index ["performer_type", "performer_id"], name: "index_order_items_on_performer"
+    t.index ["service_id"], name: "index_order_items_on_service_id"
+    t.index ["state"], name: "index_order_items_on_state"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.datetime "appointment_at"
+    t.datetime "cancelled_at"
+    t.bigint "car_id", null: false
+    t.string "comment"
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.decimal "expense", precision: 12, scale: 2, default: "0.0", null: false
+    t.boolean "paid", default: false, null: false
+    t.decimal "price", precision: 12, scale: 2, default: "0.0", null: false
+    t.datetime "processing_at"
+    t.string "state", default: "initial", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["car_id"], name: "index_orders_on_car_id"
+    t.index ["paid"], name: "index_orders_on_paid"
+    t.index ["state"], name: "index_orders_on_state"
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "services", force: :cascade do |t|
@@ -88,4 +130,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_10_165205) do
   end
 
   add_foreign_key "cars", "users"
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "order_items", "services"
+  add_foreign_key "orders", "cars"
+  add_foreign_key "orders", "users"
 end

@@ -1,0 +1,24 @@
+= form_with model: @resource, class: 'admin-form', data: { action: 'submit->modal#close' } do |form|
+  .mb-5
+    = form.label :state
+    = form.select :state, Order.aasm.states.map { |s| [t("order.states.#{s.name}"), s.name] }
+  .mb-5
+    = form.label :user
+    = form.select :user_id, User.all.map { |u| [u.full_name.presence || u.email, u.id] }
+  .mb-5
+    = form.label :car
+    = form.select :car_id, Car.all.map { |c| ["#{c.brand} #{c.model} #{c.license_plate}", c.id] }
+  .mb-5
+    - @resource.appointment_at ||= Time.current
+    = form.label :appointment_at
+    = form.datetime_local_field :appointment_at, min: Time.current
+  .mb-5
+    = form.label :comment
+    = form.text_field :comment
+  .mb-5
+    = form.label :paid, class: 'cursor-pointer !flex flex-wrap gap-2 items-center' do
+      = form.check_box :paid, class: 'sr-only peer'
+      div class="relative w-11 h-6 bg-gray-200 ring-4 ring-transparent peer-focus:ring-blue-300 peer-focus:dark:ring-blue-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600"
+      span class="ms-0 md:ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"
+        = form.object.class.human_attribute_name(:paid)
+  = form.submit @resource.persisted? ? 'Обновить' : 'Создать', class: 'btn'

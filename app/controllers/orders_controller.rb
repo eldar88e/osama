@@ -1,11 +1,9 @@
 class OrdersController < ApplicationController
   include ResourceConcerns
 
-  def index; end
-
   private
 
   def order_params
-    params.expect(order: %i[user_id car_id service_id status])
+    params.expect(order: %i[user_id car_id service_id state paid comment appointment_at])
   end
 end

@@ -13,6 +13,14 @@ ru:
         few: "Услуги"
         many: "Услуг"
         other: "Услуга"
+        accusative: "услугу"
+      order:
+        one: "заказ"
+        few: "заказа"
+        many: "заказов"
+        other: "заказы"
+        accusative: "заказ"
+      order_item: "Позиция заказа"
     attributes:
       ad:
         email: "Email"
@@ -53,6 +61,21 @@ ru:
         category: "Категория"
         popularity: "Популярность"
         active: "Активна"
+      order:
+        state: "Статус"
+        paid: "Оплачено"
+        price: "Сумма"
+        user: "Клиент"
+        car: "Автомобиль"
+        expense: "Расходы"
+        comment: "Комментарий"
+        appointment_at: "Дата и время приёма"
+  order:
+    states:
+      initial: "Новый"
+      processing: "В работе"
+      completed: "Завершен"
+      cancelled: "Отменен"
   user:
     roles:
       user: "Пользователь"
@@ -76,6 +99,10 @@ ru:
     create: "Услуга успешно добавлена."
     update: "Услуга успешно обновлена."
     destroy: "Услуга успешно удалена."
+  orders:
+    create: "Заказ успешно добавлен."
+    update: "Заказ успешно обновлен."
+    destroy: "Заказ успешно удален."
   admin:
     users:
       create: "Пользователь успешно добавлен."
