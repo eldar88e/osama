@@ -16,7 +16,7 @@ class Order < ApplicationRecord
     end
 
     event :cancel do
-      transitions from: [:initial, :processing], to: :cancelled
+      transitions from: %i[initial processing], to: :cancelled
     end
   end
 

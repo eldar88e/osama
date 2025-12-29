@@ -55,7 +55,7 @@ module Api
         def tokens(refresh, session_id)
           {
             access_token: Api::Authentication::JwtService.encode(user_id: current_user.id, session_id: session_id),
-            refresh_token: refresh,
+            refresh_token: refresh
             # session_id: session_id
           }
         end
