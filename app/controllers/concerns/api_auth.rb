@@ -8,11 +8,12 @@ module ApiAuth
   private
 
   def authenticate_access!
-    header  = request.headers['Authorization']
-    token   = header&.split(' ')&.last
-    payload = Api::Authentication::JwtService.decode(token)
-    return unauthorized unless payload
+    header = request.headers['Authorization']
+    token  = header&.split(' ')&.last
+    result = Api::Authentication::JwtService.decode(token)
+    return unauthorized(result.error) if result.error
 
+    payload = result.payload
     @current_user = User.find_by(id: payload[:user_id])
     return unauthorized unless @current_user
 
@@ -20,7 +21,7 @@ module ApiAuth
     unauthorized unless @current_session
   end
 
-  def unauthorized
-    render json: { error: 'unauthorized' }, status: :unauthorized
+  def unauthorized(error = 'unauthorized')
+    render json: { error: error }, status: :unauthorized
   end
 end

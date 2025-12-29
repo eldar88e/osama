@@ -10,7 +10,7 @@ module Api
 
         def create
           @current_user = User.find_by(email: user_params[:email])
-          return unauthorized unless current_user&.valid_password?(user_params[:password])
+          return unauthorized('email_or_pass_invalid') unless current_user&.valid_password?(user_params[:password])
 
           raw_refresh, digest = Api::Authentication::RefreshTokenService.generate
 

@@ -3,10 +3,18 @@ module Api
     class ApplicationController < ActionController::API
       respond_to :json
 
+      rescue_from ActiveRecord::RecordNotFound do
+        render json: { error: 'not_found' }, status: :not_found
+      end
+
       include ApiAuth
       include Pagy::Method
 
-      before_action :authenticate_access!
+      before_action :authenticate_access!, except: :not_found
+
+      def not_found
+        render json: { error: 'not_found' }, status: :not_found
+      end
 
       private
 
