@@ -38,11 +38,13 @@ gem 'telegram-bot-ruby', '~> 2.0'
 gem 'view_component'
 
 gem 'aasm'
+gem 'alba'
+gem 'jwt', require: false
+gem 'rack-cors'
 
 group :development, :test do
   gem 'brakeman', require: false
   gem 'bundler-audit', require: false
-  gem 'pry'
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
 end

@@ -10,9 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_25_160655) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_29_184802) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "api_sessions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "expires_at", null: false
+    t.string "ip"
+    t.string "refresh_token_digest", null: false
+    t.datetime "revoked_at"
+    t.datetime "updated_at", null: false
+    t.string "user_agent"
+    t.bigint "user_id", null: false
+    t.index ["expires_at"], name: "index_api_sessions_on_expires_at"
+    t.index ["refresh_token_digest"], name: "index_api_sessions_on_refresh_token_digest", unique: true
+    t.index ["user_id", "revoked_at"], name: "index_api_sessions_on_user_id_and_revoked_at"
+    t.index ["user_id"], name: "index_api_sessions_on_user_id"
+  end
 
   create_table "cars", force: :cascade do |t|
     t.string "brand"
@@ -129,6 +144,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_25_160655) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "api_sessions", "users"
   add_foreign_key "cars", "users"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "services"
