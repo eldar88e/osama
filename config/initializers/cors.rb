@@ -1,12 +1,12 @@
-origins = ENV.fetch('FRONTEND_HOSTS', 'http://localhost:3000').split(',').map(&:strip)
+ORIGINS = ENV.fetch('FRONTEND_HOSTS', 'http://localhost:3000').split(',').map(&:strip)
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins(*origins)
+    origins(*ORIGINS)
 
     resource '/api/v1/*',
              headers: :any,
              methods: %i[get post put patch delete options head],
-             expose: [:Authorization]
+             max_age: 86_400
   end
 end
