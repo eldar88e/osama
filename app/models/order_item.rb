@@ -31,12 +31,12 @@ class OrderItem < ApplicationRecord
     end
 
     event :cancel do
-      transitions from: [
-        :initial,
-        :diagnostic,
-        :agreement,
-        :processing,
-        :control
+      transitions from: %i[
+        initial
+        diagnostic
+        agreement
+        processing
+        control
       ], to: :cancelled
     end
   end

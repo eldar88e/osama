@@ -12,7 +12,7 @@ class Order < ApplicationRecord
     end
 
     event :complete do
-      transitions from: :processing, to: :completed, guard: %i[all_items_paid? has_price?]
+      transitions from: :processing, to: :completed, guard: %i[all_items_paid? price?]
     end
 
     event :cancel do
@@ -46,7 +46,7 @@ class Order < ApplicationRecord
     recalc_totals!
   end
 
-  def has_price?
+  def price?
     price.positive?
   end
 

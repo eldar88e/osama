@@ -10,7 +10,7 @@ module Api
 
     def authenticate_access!
       header = request.headers['Authorization']
-      token  = header&.split(' ')&.last
+      token  = header&.split&.last
       result = Api::Authentication::JwtService.decode(token)
       return unauthorized(result.error) if result.error
 

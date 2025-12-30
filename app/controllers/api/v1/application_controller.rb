@@ -18,10 +18,10 @@ module Api
 
       private
 
-      def render_bad_request(e)
+      def render_bad_request(error)
         render json: {
           error: 'bad_request',
-          message: e.message
+          message: error.message
         }, status: :bad_request
       end
 
