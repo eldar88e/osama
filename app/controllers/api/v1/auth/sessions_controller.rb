@@ -1,6 +1,6 @@
 module Api
   module V1
-    module Users
+    module Auth
       class SessionsController < Api::V1::ApplicationController
         EXPIRES_IN = 14.days
 

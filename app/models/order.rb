@@ -12,7 +12,7 @@ class Order < ApplicationRecord
     end
 
     event :complete do
-      transitions from: :processing, to: :completed, guard: [:all_items_paid?, :has_price?]
+      transitions from: :processing, to: :completed, guard: %i[all_items_paid? has_price?]
     end
 
     event :cancel do

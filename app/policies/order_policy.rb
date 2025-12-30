@@ -1,4 +1,4 @@
-class UserPolicy < ApplicationPolicy
+class OrderPolicy < ApplicationPolicy
   def index?
     true
   end
@@ -12,7 +12,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def update?
-    admin? || record == user
+    admin?
   end
 
   def destroy?

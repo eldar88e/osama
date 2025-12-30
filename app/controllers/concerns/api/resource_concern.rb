@@ -66,7 +66,7 @@ module Api
     end
 
     def error_response
-      render json: { errors: @resource.errors.full_messages }, status: :unprocessable_content
+      render json: { errors: 'ar', message: @resource.errors.full_messages.join(', ') }, status: :unprocessable_content
     end
   end
 end
