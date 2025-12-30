@@ -3,9 +3,8 @@ module Api
     class ApplicationController < ActionController::API
       respond_to :json
 
-      rescue_from ActiveRecord::RecordNotFound do
-        render json: { error: 'not_found' }, status: :not_found
-      end
+      rescue_from ActionController::ParameterMissing, with: :render_bad_request
+      rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
       include ApiAuth
       include Pagy::Method
@@ -17,6 +16,13 @@ module Api
       end
 
       private
+
+      def render_bad_request(e)
+        render json: {
+          error: 'bad_request',
+          message: e.message
+        }, status: :bad_request
+      end
 
       def pagy_metadata(pagy)
         { count: pagy.count, from: pagy.from, in: pagy.in, last: pagy.last,
