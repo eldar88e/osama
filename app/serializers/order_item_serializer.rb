@@ -10,7 +10,7 @@ class OrderItemSerializer
   one :performer, resource: lambda { |performer|
     case performer
     when User
-      UserSerializer
+      UserSerializer # TODO: not implemented for outsourcing!
     end
   }
 end
