@@ -2,7 +2,7 @@ ORIGINS = ENV.fetch('FRONTEND_HOST', 'http://localhost:3000').split(',').map(&:s
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins '*' # (*ORIGINS) TODO: change to ORIGINS
+    origins '*' # TODO: change to (*ORIGINS)
 
     resource '/api/v1/*',
              headers: :any,
