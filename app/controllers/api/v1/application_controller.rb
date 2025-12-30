@@ -4,9 +4,10 @@ module Api
       respond_to :json
 
       rescue_from ActionController::ParameterMissing, with: :render_bad_request
+      rescue_from Pundit::NotAuthorizedError, with: :render_forbidden
       rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
-      include ApiAuth
+      include Api::Auth
       include Pagy::Method
 
       before_action :authenticate_access!, except: :not_found
@@ -22,6 +23,10 @@ module Api
           error: 'bad_request',
           message: e.message
         }, status: :bad_request
+      end
+
+      def render_forbidden
+        render json: { error: 'forbidden' }, status: :forbidden
       end
 
       def pagy_metadata(pagy)

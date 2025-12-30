@@ -12,20 +12,8 @@ class User < ApplicationRecord
 
   before_validation :set_default_attributes, if: :new_record?
 
-  def admin?
-    role == 'admin'
-  end
-
-  def moderator?
-    role == 'moderator'
-  end
-
-  def manager?
-    role == 'manager'
-  end
-
-  def admin_or_moderator_or_manager?
-    moderator? || admin? || manager?
+  def admin_or_manager_or_staff?
+    admin? || manager? || staff?
   end
 
   def full_name

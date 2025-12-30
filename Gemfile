@@ -39,6 +39,7 @@ gem 'view_component'
 gem 'aasm'
 gem 'alba'
 gem 'jwt', require: false
+gem 'pundit'
 gem 'rack-cors'
 
 group :development, :test do
@@ -52,6 +53,6 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'bullet'
-  # gem 'letter_opener'
+  gem 'letter_opener'
   gem 'web-console'
 end
