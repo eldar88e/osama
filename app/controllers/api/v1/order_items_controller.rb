@@ -5,12 +5,19 @@ module Api
 
       private
 
-      def set_resource
-        order     = Order.find(params[:order_id])
-        @resource = order.order_items.find(params[:id])
+      def authorize_resource!
+        authorize @resource || OrderItem
       end
 
-      def order_params
+      def resource_class
+        Order.find(params[:order_id])&.order_items
+      end
+
+      def serializer
+        OrderItemSerializer
+      end
+
+      def resource_params
         params.expect(
           order: %i[order_id service_id performer_id performer_type state price paid comment materials_price
                     materials_comment delivery_price delivery_comment]
