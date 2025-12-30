@@ -7,9 +7,9 @@ gem 'pg', '~> 1.6'
 gem 'puma', '>= 7.0'
 gem 'stimulus-rails'
 gem 'turbo-rails'
-# gem "jbuilder"
-gem 'sprockets-rails'
 gem 'vite_rails'
+
+gem 'sprockets-rails'
 
 gem 'solid_cable'
 gem 'solid_cache'
@@ -27,7 +27,6 @@ gem 'active_link_to'
 # gem 'aws-sdk-s3'
 gem 'devise'
 gem 'dotenv'
-# gem 'gretel' # breadcrumbs
 gem 'i18n'
 gem 'pagy'
 # gem 'pghero'
