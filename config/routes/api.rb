@@ -4,8 +4,8 @@ namespace :api do
     post   :refresh, to: 'auth/sessions#refresh'
     delete :logout,  to: 'auth/sessions#destroy'
 
-    resources :users
-    resources :orders
+    resources :users, except: %i[new edit]
+    resources :orders, except: %i[new edit]
 
     get :not_found, to: 'application#not_found'
   end
