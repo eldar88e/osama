@@ -3,6 +3,10 @@ module Api
     class OrdersController < Api::V1::ApplicationController
       include Api::ResourceConcern
 
+      def show
+        render json: OrderShowSerializer.new(@resource)
+      end
+
       private
 
       def order_params

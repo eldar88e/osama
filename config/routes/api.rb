@@ -5,7 +5,9 @@ namespace :api do
     delete :logout,  to: 'auth/sessions#destroy'
 
     resources :users, except: %i[new edit]
-    resources :orders, except: %i[new edit]
+    resources :orders, except: %i[new edit] do
+      resources :order_items, except: %i[new edit]
+    end
 
     get :not_found, to: 'application#not_found'
   end
