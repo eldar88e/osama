@@ -17,7 +17,7 @@ class User < ApplicationRecord
   end
 
   def full_name
-    [first_name, middle_name, last_name].compact.join(' ')
+    [first_name, last_name, middle_name].compact.join(' ')
   end
 
   ransacker :full_name do
