@@ -20,8 +20,14 @@ class User < ApplicationRecord
     [first_name, middle_name, last_name].compact.join(' ')
   end
 
+  ransacker :full_name do
+    Arel.sql(
+      "concat_ws(' ', middle_name, first_name, last_name)"
+    )
+  end
+
   def self.ransackable_attributes(_auth_object = nil)
-    %w[id email role]
+    %w[id email role full_name phone]
   end
 
   def self.ransackable_associations(_auth_object = nil)
