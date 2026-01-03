@@ -1,3 +1,10 @@
 class Car < ApplicationRecord
-  belongs_to :client, class_name: 'User', foreign_key: :user_id, inverse_of: :cars
+  belongs_to :owner, class_name: 'User'
+
+  validates :year,
+            numericality: {
+              only_integer: true,
+              greater_than_or_equal_to: 1900,
+              less_than_or_equal_to: Time.current.year + 1
+            }
 end

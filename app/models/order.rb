@@ -20,7 +20,7 @@ class Order < ApplicationRecord
     end
   end
 
-  belongs_to :user
+  belongs_to :client, class_name: 'User'
   belongs_to :car
 
   has_many :order_items, dependent: :destroy

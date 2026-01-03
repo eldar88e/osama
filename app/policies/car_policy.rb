@@ -1,10 +1,10 @@
-class OrderPolicy < ApplicationPolicy
+class CarPolicy < ApplicationPolicy
   def index?
     true
   end
 
   def show?
-    admin_or_manager_or_staff? || record.client == user
+    admin_or_manager_or_staff? || record.owner == user
   end
 
   def create?
@@ -24,7 +24,7 @@ class OrderPolicy < ApplicationPolicy
       if user.admin? || user.manager? || user.staff?
         scope.all
       else
-        scope.where(client_id: user.id)
+        scope.where(owner_id: user.id)
       end
     end
   end

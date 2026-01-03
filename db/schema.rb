@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_29_184802) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_03_071822) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -35,10 +35,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_29_184802) do
     t.datetime "created_at", null: false
     t.string "license_plate"
     t.string "model"
+    t.bigint "owner_id", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
     t.string "vin"
-    t.index ["user_id"], name: "index_cars_on_user_id"
+    t.integer "year"
+    t.index ["owner_id"], name: "index_cars_on_owner_id"
   end
 
   create_table "order_items", force: :cascade do |t|
@@ -67,6 +68,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_29_184802) do
     t.datetime "appointment_at"
     t.datetime "cancelled_at"
     t.bigint "car_id", null: false
+    t.bigint "client_id", null: false
     t.string "comment"
     t.datetime "completed_at"
     t.datetime "created_at", null: false
@@ -76,11 +78,10 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_29_184802) do
     t.datetime "processing_at"
     t.string "state", default: "initial", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
     t.index ["car_id"], name: "index_orders_on_car_id"
+    t.index ["client_id"], name: "index_orders_on_client_id"
     t.index ["paid"], name: "index_orders_on_paid"
     t.index ["state"], name: "index_orders_on_state"
-    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "services", force: :cascade do |t|
@@ -145,9 +146,9 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_29_184802) do
   end
 
   add_foreign_key "api_sessions", "users"
-  add_foreign_key "cars", "users"
+  add_foreign_key "cars", "users", column: "owner_id"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "services"
   add_foreign_key "orders", "cars"
-  add_foreign_key "orders", "users"
+  add_foreign_key "orders", "users", column: "client_id"
 end

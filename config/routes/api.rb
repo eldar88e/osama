@@ -8,6 +8,7 @@ namespace :api do
     resources :orders, except: %i[new edit] do
       resources :order_items, except: %i[new edit]
     end
+    resources :cars, except: %i[new edit]
 
     get :not_found, to: 'application#not_found'
   end

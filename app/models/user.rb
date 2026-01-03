@@ -6,8 +6,8 @@ class User < ApplicationRecord
 
   enum :role, { user: 0, staff: 1, manager: 2, admin: 3 }
 
-  has_many :cars, inverse_of: :client, dependent: :destroy
-  has_many :orders, dependent: :destroy
+  has_many :cars, dependent: :destroy
+  has_many :orders, foreign_key: :client_id, dependent: :destroy, inverse_of: :client
   has_many :api_sessions, dependent: :destroy
 
   before_validation :set_default_attributes, if: :new_record?
