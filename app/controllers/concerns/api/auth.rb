@@ -9,9 +9,7 @@ module Api
     private
 
     def authenticate_access!
-      header = request.headers['Authorization']
-      token  = header&.split&.last
-      result = Api::Authentication::JwtService.decode(token)
+      result = decode_token
       return unauthorized(result.error) if result.error
 
       payload = result.payload
@@ -24,6 +22,12 @@ module Api
 
     def unauthorized(error = 'unauthorized')
       render json: { error: error }, status: :unauthorized
+    end
+
+    def decode_token
+      header = request.headers['Authorization']
+      token  = header&.split&.last
+      Api::Authentication::JwtService.decode(token)
     end
   end
 end

@@ -1,6 +1,7 @@
 class OrderItem < ApplicationRecord
   include AASM
 
+  # rubocop:disable Metrics/BlockLength
   aasm column: :state do
     state :initial, initial: true
     state :diagnostic
@@ -40,6 +41,7 @@ class OrderItem < ApplicationRecord
       ], to: :cancelled
     end
   end
+  # rubocop:enable Metrics/BlockLength
 
   belongs_to :order
   belongs_to :service

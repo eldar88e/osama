@@ -36,7 +36,7 @@ class User < ApplicationRecord
   end
 
   def set_default_attributes
-    self.email = "user_#{User.last.id + 1}@#{ENV.fetch('EMAIL_HOST', ENV.fetch('HOST'))}" if email.blank?
-    self.password = Devise.friendly_token.first(8)
+    self.email    = "user_#{User.last.id + 1}@#{ENV.fetch('EMAIL_HOST', ENV.fetch('HOST'))}" if email.blank?
+    self.password = Devise.friendly_token.first(8) if password.blank?
   end
 end

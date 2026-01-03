@@ -13,13 +13,7 @@ module Api
           return unauthorized('email_or_pass_invalid') unless current_user&.valid_password?(user_params[:password])
 
           raw_refresh, digest = Api::Authentication::RefreshTokenService.generate
-
-          session = current_user.api_sessions.create!(
-            refresh_token_digest: digest,
-            user_agent: request.user_agent,
-            ip: request.remote_ip,
-            expires_at: EXPIRES_IN.from_now
-          )
+          session             = create_session(digest)
 
           render json: tokens(raw_refresh, session.id)
         end
@@ -51,6 +45,15 @@ module Api
         end
 
         private
+
+        def create_session(digest)
+          current_user.api_sessions.create!(
+            refresh_token_digest: digest,
+            user_agent: request.user_agent,
+            ip: request.remote_ip,
+            expires_at: EXPIRES_IN.from_now
+          )
+        end
 
         def tokens(refresh, session_id)
           {
