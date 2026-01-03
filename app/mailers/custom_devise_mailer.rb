@@ -9,5 +9,6 @@ class CustomDeviseMailer < Devise::Mailer
   def confirmation_instructions(record, token, opts = {})
     # nothing not send because email is generated with system
     # TODO: Restore confirmation email
+    Rails.logger.warn "Confirmation instructions for #{record.email} not sent"
   end
 end
