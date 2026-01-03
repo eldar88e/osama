@@ -4,7 +4,7 @@ module Api
       include Api::ResourceConcern
 
       def index
-        q = policy_scope(Order).order(:created_at).includes(:user, :car).ransack(params[:q])
+        q = policy_scope(Order).order(:created_at).includes(:client, :car).ransack(params[:q])
 
         pagy, resources = pagy(q.result)
 
@@ -18,7 +18,7 @@ module Api
       private
 
       def order_params
-        params.expect(order: %i[user_id car_id state paid comment appointment_at])
+        params.expect(order: %i[client_id car_id state paid comment appointment_at])
       end
     end
   end

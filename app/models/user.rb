@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :rememberable, :validatable, :confirmable
 
   enum :role, { user: 0, staff: 1, manager: 2, admin: 3 }
+  enum :position, { other: 0, cleaner: 1, detailer: 2, upholsterer: 3, painter: 4 }
 
   has_many :cars, dependent: :destroy
   has_many :orders, foreign_key: :client_id, dependent: :destroy, inverse_of: :client

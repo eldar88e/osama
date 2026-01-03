@@ -12,7 +12,7 @@ class OrderItemSerializer
     when User
       UserSerializer
     when Contactor
-      ContactorsSerializer
+      ContactorSerializer
     end
   }
 end
