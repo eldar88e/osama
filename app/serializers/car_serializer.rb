@@ -3,5 +3,5 @@ class CarSerializer
 
   root_key :car
 
-  attributes :id, :user_id, :license_plate, :brand, :model, :vin, :year, :comment
+  attributes :id, :owner_id, :license_plate, :brand, :model, :vin, :year, :comment
 end
