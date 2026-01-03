@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_03_071822) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_03_091543) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -40,6 +40,29 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_03_071822) do
     t.string "vin"
     t.integer "year"
     t.index ["owner_id"], name: "index_cars_on_owner_id"
+  end
+
+  create_table "contactors", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.string "bank_name"
+    t.string "bik"
+    t.string "checking_account"
+    t.text "comment"
+    t.string "contact_person"
+    t.string "correspondent_account"
+    t.datetime "created_at", null: false
+    t.string "email"
+    t.integer "entity_type", null: false
+    t.string "inn"
+    t.string "kpp"
+    t.string "legal_address"
+    t.string "name", null: false
+    t.string "phone"
+    t.text "service_profile"
+    t.datetime "updated_at", null: false
+    t.index ["active"], name: "index_contactors_on_active"
+    t.index ["name"], name: "index_contactors_on_name"
+    t.index ["phone"], name: "index_contactors_on_phone"
   end
 
   create_table "order_items", force: :cascade do |t|
