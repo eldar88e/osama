@@ -1,7 +1,7 @@
-class CarSerializer
+class ServiceSerializer
   include Alba::Resource
 
-  root_key :car
+  root_key :service
 
   attributes :id, :title
 end
