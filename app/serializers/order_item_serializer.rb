@@ -7,6 +7,10 @@ class OrderItemSerializer
              :materials_price, :materials_comment, :delivery_price, :delivery_comment, :comment,
              :updated_at, :created_at
 
+  attribute :service do |order_item|
+    order_item.service.title
+  end
+
   one :performer, resource: lambda { |performer|
     case performer
     when User
