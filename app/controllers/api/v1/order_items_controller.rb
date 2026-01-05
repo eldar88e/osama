@@ -10,6 +10,7 @@ module Api
       end
 
       def resource_class
+        binding.irb
         Order.find(params[:order_id])&.order_items
       end
 
@@ -19,8 +20,8 @@ module Api
 
       def resource_params
         params.expect(
-          order: %i[order_id service_id performer_id performer_type state price paid comment materials_price
-                    materials_comment delivery_price delivery_comment]
+          order_item: %i[order_id service_id performer_id performer_type state price paid comment materials_price
+                         materials_comment delivery_price delivery_comment]
         )
       end
     end
