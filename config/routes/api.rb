@@ -10,6 +10,7 @@ namespace :api do
     end
     resources :cars, except: %i[new edit]
     resources :contactors, except: %i[new edit]
+    resources :services, except: %i[new edit]
 
     get :not_found, to: 'application#not_found'
   end
