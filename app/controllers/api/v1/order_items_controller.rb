@@ -10,7 +10,6 @@ module Api
       end
 
       def resource_class
-        binding.irb
         Order.find(params[:order_id])&.order_items
       end
 
