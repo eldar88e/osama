@@ -1,7 +1,7 @@
 class ContactorSerializer
   include Alba::Resource
 
-  root_key :user
+  root_key :contactor
 
   attributes :id, :name, :entity_type, :email, :phone, :inn, :kpp, :legal_address, :contact_person, :bank_name,
              :bik, :checking_account, :correspondent_account, :service_profile, :active, :comment, :created_at
