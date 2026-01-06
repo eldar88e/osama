@@ -23,7 +23,7 @@ module Api
           :client_id, :car_id, :state, :paid, :comment, :appointment_at,
           order_items_attributes: %i[
             id service_id performer_id performer_type state price paid comment materials_price materials_comment
-            delivery_price delivery_comment _destroy
+            delivery_price delivery_comment performer_fee _destroy
           ]
         )
       end

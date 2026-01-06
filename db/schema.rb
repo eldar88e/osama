@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_03_134657) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_06_142703) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -74,6 +74,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_03_134657) do
     t.decimal "materials_price", precision: 12, scale: 2, default: "0.0", null: false
     t.bigint "order_id", null: false
     t.boolean "paid", default: false, null: false
+    t.decimal "performer_fee", precision: 10, scale: 2, default: "0.0", null: false
     t.bigint "performer_id", null: false
     t.string "performer_type", null: false
     t.decimal "price", precision: 12, scale: 2, default: "0.0", null: false

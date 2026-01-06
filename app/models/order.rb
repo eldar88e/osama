@@ -31,21 +31,18 @@ class Order < ApplicationRecord
   validates :expense, numericality: { greater_than_or_equal_to: 0 }
   validates :appointment_at, presence: true
 
-  def recalc_totals!
-    self.price   = order_items.sum(:price)
-    self.expense =
-      order_items.sum(:materials_price) +
-      order_items.sum(:delivery_price)
-    save!
-  end
-
   def all_items_paid?
     order_items.exists? && order_items.where(paid: false).none?
   end
 
   def sync_paid!
-    self.paid = all_items_paid?
-    recalc_totals!
+    self.paid    = all_items_paid?
+    self.price   = order_items.sum(:price)
+    self.expense =
+      order_items.sum(:materials_price) +
+      order_items.sum(:delivery_price) +
+      order_items.sum(:performer_fee)
+    save!
   end
 
   def price?

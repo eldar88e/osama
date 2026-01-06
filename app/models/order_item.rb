@@ -1,6 +1,11 @@
 class OrderItem < ApplicationRecord
   include AASM
 
+  validates :price, numericality: { greater_than_or_equal_to: 0 }
+  validates :materials_price, numericality: { greater_than_or_equal_to: 0 }
+  validates :delivery_price, numericality: { greater_than_or_equal_to: 0 }
+  validates :performer_fee, numericality: { greater_than_or_equal_to: 0 }
+
   # rubocop:disable Metrics/BlockLength
   aasm column: :state do
     state :initial, initial: true
@@ -56,7 +61,8 @@ class OrderItem < ApplicationRecord
       saved_change_to_paid? ||
       saved_change_to_price? ||
       saved_change_to_materials_price? ||
-      saved_change_to_delivery_price?
+      saved_change_to_delivery_price? ||
+      saved_change_to_performer_fee?
 
     order.sync_paid!
   end
