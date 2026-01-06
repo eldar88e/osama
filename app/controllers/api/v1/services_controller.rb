@@ -6,7 +6,7 @@ module Api
       private
 
       def service_params
-        params.expect(car: %i[title])
+        params.expect(service: %i[title active])
       end
     end
   end
