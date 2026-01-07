@@ -7,7 +7,7 @@ class Contactor < ApplicationRecord
   validates :inn, length: { in: 10..12 }, allow_blank: true
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[id name entity_type]
+    %w[id name entity_type phone]
   end
 
   def self.ransackable_associations(_auth_object = nil)
