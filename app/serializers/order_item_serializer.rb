@@ -10,12 +10,14 @@ class OrderItemSerializer
     order_item.service.title
   end
 
-  one :performer, resource: lambda { |performer|
-    case performer
-    when User
-      UserSerializer
-    when Contactor
-      ContactorSerializer
-    end
-  }
+  many :order_item_performers, resource: OrderItemPerformerSerializer
+
+  # one :performer, resource: lambda { |performer|
+  #   case performer
+  #   when User
+  #     UserSerializer
+  #   when Contractor
+  #     ContractorSerializer
+  #   end
+  # }
 end

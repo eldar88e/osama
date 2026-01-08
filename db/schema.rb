@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_06_142703) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_08_124810) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -63,6 +63,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_06_142703) do
     t.index ["active"], name: "index_contactors_on_active"
     t.index ["name"], name: "index_contactors_on_name"
     t.index ["phone"], name: "index_contactors_on_phone"
+  end
+
+  create_table "order_item_performers", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "order_item_id", null: false
+    t.decimal "performer_fee", precision: 12, scale: 2, null: false
+    t.bigint "performer_id", null: false
+    t.string "performer_type", null: false
+    t.integer "role", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_item_id", "performer_type", "performer_id"], name: "idx_on_order_item_id_performer_type_performer_id_55a14ef11d", unique: true
+    t.index ["order_item_id"], name: "index_order_item_performers_on_order_item_id"
+    t.index ["performer_type", "performer_id"], name: "index_order_item_performers_on_performer"
   end
 
   create_table "order_items", force: :cascade do |t|
@@ -172,6 +185,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_06_142703) do
 
   add_foreign_key "api_sessions", "users"
   add_foreign_key "cars", "users", column: "owner_id"
+  add_foreign_key "order_item_performers", "order_items"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "services"
   add_foreign_key "orders", "cars"

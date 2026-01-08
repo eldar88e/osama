@@ -1,4 +1,6 @@
-class Contactor < ApplicationRecord
+class Contractor < ApplicationRecord
+  self.table_name = 'contactors' # TODO: Rename to contractors
+
   enum :entity_type, { individual: 0, legal: 1 }
 
   validates :name, presence: true

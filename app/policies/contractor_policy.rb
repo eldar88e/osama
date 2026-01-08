@@ -1,4 +1,4 @@
-class ContactorPolicy < ApplicationPolicy
+class ContractorPolicy < ApplicationPolicy
   def index?
     admin_or_manager_or_staff?
   end

@@ -17,12 +17,17 @@ module Api
         OrderItemSerializer
       end
 
+      # rubocop:disable Rails/StrongParametersExpect
       def resource_params
-        params.expect(
-          order_item: %i[order_id service_id performer_id performer_type state price paid comment materials_price
-                         materials_comment delivery_price delivery_comment performer_fee]
+        params.require(:order_item).permit(
+          :order_id, :service_id, :state, :price, :paid, :comment, :materials_price,
+          :materials_comment, :delivery_price, :delivery_comment, :performer_fee,
+          order_item_performers_attributes: %i[
+            id performer_id performer_type performer_fee role _destroy
+          ]
         )
       end
+      # rubocop:enable Rails/StrongParametersExpect
     end
   end
 end

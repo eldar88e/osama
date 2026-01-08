@@ -50,7 +50,13 @@ class OrderItem < ApplicationRecord
 
   belongs_to :order
   belongs_to :service
-  belongs_to :performer, polymorphic: true
+  # belongs_to :performer, polymorphic: true
+
+  has_many :order_item_performers, dependent: :destroy, inverse_of: :order_item
+  has_many :staffs, through: :order_item_performers, source: :performer, source_type: 'User'
+  has_many :contractors, through: :order_item_performers, source: :performer, source_type: 'Contractor'
+
+  accepts_nested_attributes_for :order_item_performers, allow_destroy: true
 
   after_commit :sync_order_if_needed
 

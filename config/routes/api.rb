@@ -6,10 +6,12 @@ namespace :api do
 
     resources :users, except: %i[new edit]
     resources :orders, except: %i[new edit] do
-      resources :order_items, except: %i[new edit]
+      resources :order_items, only: %i[create update destroy] do
+        resources :order_item_performers, only: %i[create update destroy]
+      end
     end
     resources :cars, except: %i[new edit]
-    resources :contactors, except: %i[new edit]
+    resources :contractors, except: %i[new edit]
     resources :services, except: %i[new edit]
 
     get :not_found, to: 'application#not_found'
