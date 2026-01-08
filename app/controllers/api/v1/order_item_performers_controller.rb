@@ -1,6 +1,8 @@
 module Api
   module V1
     class OrderItemPerformersController < Api::V1::ApplicationController
+      include Pundit::Authorization
+
       before_action :set_resource, only: %i[update destroy]
       before_action :authorize_resource!
 
