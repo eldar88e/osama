@@ -3,14 +3,16 @@ class OrderItemPerformerSerializer
 
   root_key :order_item_performer
 
-  attributes :id, :order_item_id, :performer_fee
+  attributes :id, :order_item_id, :performer_id, :performer_type, :performer_fee
 
-  attribute :performer do |order_item_performer|
-    case order_item_performer.performer
+  attribute :performer_name do |order_item_performer|
+    performer = order_item_performer.performer
+
+    case performer
     when User
-      UserSerializer
+      performer.full_name
     when Contractor
-      ContractorSerializer
+      performer.name
     end
   end
 end
