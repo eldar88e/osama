@@ -6,7 +6,7 @@ namespace :api do
 
     resources :users, except: %i[new edit]
     resources :orders, except: %i[new edit] do
-      resources :order_items, only: %i[create update destroy] do
+      resources :order_items, only: %i[index create update destroy] do
         resources :order_item_performers, only: %i[create update destroy]
       end
     end
