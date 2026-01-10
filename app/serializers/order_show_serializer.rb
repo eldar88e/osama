@@ -8,5 +8,4 @@ class OrderShowSerializer
 
   many :order_items, resource: OrderItemSerializer
   one :client, resource: UserSerializer
-  one :car, resource: CarSerializer
 end
