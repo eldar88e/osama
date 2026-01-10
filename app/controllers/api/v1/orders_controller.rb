@@ -4,7 +4,7 @@ module Api
       include Api::ResourceConcern
 
       def index
-        q = policy_scope(Order).order(:created_at).includes(:client, :car).ransack(params[:q])
+        q = policy_scope(Order).order(:created_at).includes(:client).ransack(params[:q])
 
         pagy, resources = pagy(q.result)
 
