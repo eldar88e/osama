@@ -50,7 +50,7 @@ class OrderItem < ApplicationRecord
 
   belongs_to :order
   belongs_to :service
-  # belongs_to :performer, polymorphic: true
+  belongs_to :car
 
   has_many :order_item_performers, dependent: :destroy, inverse_of: :order_item
   has_many :staffs, through: :order_item_performers, source: :performer, source_type: 'User'

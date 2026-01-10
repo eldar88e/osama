@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_08_124810) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_10_132512) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -79,6 +79,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_08_124810) do
   end
 
   create_table "order_items", force: :cascade do |t|
+    t.bigint "car_id", null: false
     t.string "comment"
     t.datetime "created_at", null: false
     t.string "delivery_comment"
@@ -88,15 +89,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_08_124810) do
     t.bigint "order_id", null: false
     t.boolean "paid", default: false, null: false
     t.decimal "performer_fee", precision: 10, scale: 2, default: "0.0", null: false
-    t.bigint "performer_id", null: false
-    t.string "performer_type", null: false
     t.decimal "price", precision: 12, scale: 2, default: "0.0", null: false
     t.bigint "service_id", null: false
     t.string "state", default: "initial", null: false
     t.datetime "updated_at", null: false
+    t.index ["car_id"], name: "index_order_items_on_car_id"
     t.index ["order_id"], name: "index_order_items_on_order_id"
     t.index ["paid"], name: "index_order_items_on_paid"
-    t.index ["performer_type", "performer_id"], name: "index_order_items_on_performer"
     t.index ["service_id"], name: "index_order_items_on_service_id"
     t.index ["state"], name: "index_order_items_on_state"
   end
@@ -104,7 +103,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_08_124810) do
   create_table "orders", force: :cascade do |t|
     t.datetime "appointment_at"
     t.datetime "cancelled_at"
-    t.bigint "car_id", null: false
     t.bigint "client_id", null: false
     t.string "comment"
     t.datetime "completed_at"
@@ -115,7 +113,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_08_124810) do
     t.datetime "processing_at"
     t.string "state", default: "initial", null: false
     t.datetime "updated_at", null: false
-    t.index ["car_id"], name: "index_orders_on_car_id"
     t.index ["client_id"], name: "index_orders_on_client_id"
     t.index ["paid"], name: "index_orders_on_paid"
     t.index ["state"], name: "index_orders_on_state"
@@ -186,8 +183,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_08_124810) do
   add_foreign_key "api_sessions", "users"
   add_foreign_key "cars", "users", column: "owner_id"
   add_foreign_key "order_item_performers", "order_items"
+  add_foreign_key "order_items", "cars"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "services"
-  add_foreign_key "orders", "cars"
   add_foreign_key "orders", "users", column: "client_id"
 end

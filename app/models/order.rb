@@ -21,7 +21,6 @@ class Order < ApplicationRecord
   end
 
   belongs_to :client, class_name: 'User'
-  belongs_to :car
 
   has_many :order_items, dependent: :destroy
 
