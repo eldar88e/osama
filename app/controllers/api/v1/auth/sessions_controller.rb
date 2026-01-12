@@ -25,10 +25,7 @@ module Api
             return unauthorized
           end
 
-          session.revoke! # rotation
-
-          raw_refresh, digest = Api::Authentication::RefreshTokenService.generate
-          new_session         = create_session(digest)
+          raw_refresh, new_session = update_session(session)
 
           render json: tokens(raw_refresh, new_session.id)
         end
@@ -59,6 +56,15 @@ module Api
 
         def user_params
           params.expect(user: %i[email password])
+        end
+
+        def update_session(session)
+          session.revoke! # rotation
+
+          raw_refresh, digest = Api::Authentication::RefreshTokenService.generate
+          @current_user       = session.user
+          new_session         = create_session(digest)
+          [raw_refresh, new_session]
         end
       end
     end
