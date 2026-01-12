@@ -1,8 +1,8 @@
 namespace :api do
   namespace :v1, defaults: { format: :json } do
-    post   :login,   to: 'auth/sessions#create'
-    post   :refresh, to: 'auth/sessions#refresh'
-    delete :logout,  to: 'auth/sessions#destroy'
+    post   :login, to: 'auth/sessions#create'
+    post   :refresh_token, to: 'auth/sessions#refresh'
+    delete :logout, to: 'auth/sessions#destroy'
 
     resources :users, except: %i[new edit]
     resources :orders, except: %i[new edit] do
