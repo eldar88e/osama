@@ -22,7 +22,7 @@ module Api
     end
 
     def unauthorized(error = 'unauthorized')
-      render json: { code: error, error: t(error) }, status: :unauthorized
+      render json: { code: error, error: I18n.t(error) }, status: :unauthorized
     end
 
     def decode_token
