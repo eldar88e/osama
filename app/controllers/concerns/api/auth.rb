@@ -17,11 +17,12 @@ module Api
       return unauthorized unless @current_user
 
       @current_session = ApiSession.authenticate(payload[:session_id], @current_user.id)
-      unauthorized unless @current_session
+      unauthorized('session_not_found_or_revoked') unless @current_session
+      # unauthorized('refresh_token_expired') if @current_session.expired?
     end
 
     def unauthorized(error = 'unauthorized')
-      render json: { error: error }, status: :unauthorized
+      render json: { code: error, error: t(error) }, status: :unauthorized
     end
 
     def decode_token

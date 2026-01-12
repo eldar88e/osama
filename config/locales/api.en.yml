@@ -1,0 +1,9 @@
+en:
+  api:
+    errors:
+      email_or_pass_invalid: "Invalid email or password"
+      token_expired: "Token expired"
+      invalid_token: "Invalid token"
+      unauthorized: "Unauthorized"
+      session_not_found_or_revoked: "Session not found or revoked"
+      refresh_token_expired: "Refresh token expired"
