@@ -20,14 +20,14 @@ module Api
           session = ApiSession.active.find_by(id: params[:session_id])
           return unauthorized('refresh_token_expired') unless session
 
-          unless RefreshTokenService.match?(params[:refresh_token], session.refresh_token_digest)
+          unless Api::Authentication::RefreshTokenService.match?(params[:refresh_token], session.refresh_token_digest)
             session.revoke!
             return unauthorized
           end
 
           session.revoke! # rotation
 
-          raw_refresh, digest = RefreshTokenService.generate
+          raw_refresh, digest = Api::Authentication::RefreshTokenService.generate
           new_session         = create_session(digest)
 
           render json: tokens(raw_refresh, new_session.id)
