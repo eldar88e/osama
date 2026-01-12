@@ -3,9 +3,10 @@ class ApiSession < ApplicationRecord
 
   EXPIRES_IN = 3.minutes
 
-  before_create :set_expires_at
+  before_validation :set_expires_at
 
   validates :expires_at, presence: true
+  validates :refresh_token_digest, presence: true, uniqueness: true
 
   scope :active, -> { where(revoked_at: nil).where('expires_at > ?', Time.current) }
 

@@ -1,6 +1,8 @@
 module Api
   module V1
     class ApplicationController < ActionController::API
+      around_action :use_api_locale
+
       respond_to :json
 
       rescue_from ActionController::ParameterMissing, with: :render_bad_request
@@ -39,6 +41,10 @@ module Api
         @settings_ ||= Setting.all_cached
       end
       # rubocop:enable Naming/MemoizedInstanceVariableName
+
+      def use_api_locale(&)
+        I18n.with_locale(:en, &)
+      end
     end
   end
 end
