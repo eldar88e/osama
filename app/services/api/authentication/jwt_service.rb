@@ -5,7 +5,7 @@ module Api
     class JwtService
       SECRET     = Rails.application.secret_key_base
       ALG        = 'HS256'.freeze
-      ACCESS_TTL = 30.seconds
+      ACCESS_TTL = 15.minutes
 
       Result = Struct.new(:payload, :error, keyword_init: true)
 
