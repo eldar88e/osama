@@ -18,7 +18,6 @@ module Api
 
         def refresh
           session = ApiSession.active.find_by(id: params[:session_id])
-          binding.irb
           return unauthorized('refresh_token_expired') unless session
 
           unless Api::Authentication::RefreshTokenService.match?(params[:refresh_token], session.refresh_token_digest)
