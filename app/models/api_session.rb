@@ -1,7 +1,7 @@
 class ApiSession < ApplicationRecord
   belongs_to :user
 
-  EXPIRES_IN = 3.minutes
+  EXPIRES_IN = 4.minutes
 
   before_validation :set_expires_at
 
