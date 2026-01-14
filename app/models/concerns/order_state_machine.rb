@@ -11,7 +11,7 @@ module OrderStateMachine
       state :cancelled
 
       event :process do
-        transitions from: %i[initial complete], to: :processing
+        transitions from: %i[initial completed], to: :processing
 
         after { set_processing_at }
       end
@@ -24,7 +24,7 @@ module OrderStateMachine
       end
 
       event :cancel do
-        transitions from: %i[initial processing], to: :cancelled
+        transitions from: %i[initial processing completed], to: :cancelled
 
         after { set_cancelled_at }
       end
