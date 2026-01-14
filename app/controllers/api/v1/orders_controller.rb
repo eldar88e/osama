@@ -33,7 +33,6 @@ module Api
       # rubocop:enable Rails/StrongParametersExpect
 
       def update_state
-        binding.irb
         Api::Orders::ChangeStateService.call(@resource, params[:order][:state])
       end
     end
