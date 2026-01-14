@@ -1,24 +1,5 @@
 class Order < ApplicationRecord
-  include AASM
-
-  aasm column: :state do
-    state :initial, initial: true
-    state :processing
-    state :completed
-    state :cancelled
-
-    event :process do
-      transitions from: :initial, to: :processing
-    end
-
-    event :complete do
-      transitions from: :processing, to: :completed, guard: %i[all_items_paid? price?]
-    end
-
-    event :cancel do
-      transitions from: %i[initial processing], to: :cancelled
-    end
-  end
+  include OrderStateMachine
 
   belongs_to :client, class_name: 'User'
 
