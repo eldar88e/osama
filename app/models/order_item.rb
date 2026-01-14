@@ -60,6 +60,11 @@ class OrderItem < ApplicationRecord
 
   after_commit :sync_order_if_needed
 
+  def sync_performer_fee!
+    self.performer_fee = order_item_performers.sum(:performer_fee)
+    save!
+  end
+
   private
 
   def sync_order_if_needed

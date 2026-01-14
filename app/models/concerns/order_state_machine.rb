@@ -11,14 +11,14 @@ module OrderStateMachine
       state :cancelled
 
       event :process do
-        transitions from: :initial, to: :processing
+        transitions from: %i[initial complete], to: :processing
 
         after { set_processing_at }
       end
 
       event :complete do
         transitions from: :processing, to: :completed,
-                    guard: %i[all_items_paid? price?]
+                    guard: %i[all_items_paid? all_items_completed? price?]
 
         after { set_completed_at }
       end

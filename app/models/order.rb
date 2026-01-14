@@ -15,6 +15,10 @@ class Order < ApplicationRecord
     order_items.exists? && order_items.where(paid: false).none?
   end
 
+  def all_items_completed?
+    order_items.exists? && order_items.where.not(state: :completed).none?
+  end
+
   def sync_paid!
     self.paid    = all_items_paid?
     self.price   = order_items.sum(:price)
