@@ -13,21 +13,35 @@ module OrderStateMachine
       event :process do
         transitions from: :initial, to: :processing
 
-        after { update!(processing_at: Time.current) }
+        after { set_processing_at }
       end
 
       event :complete do
         transitions from: :processing, to: :completed,
                     guard: %i[all_items_paid? price?]
 
-        after { update!(completed_at: Time.current) }
+        after { set_completed_at }
       end
 
       event :cancel do
         transitions from: %i[initial processing], to: :cancelled
 
-        after { update!(cancelled_at: Time.current) }
+        after { set_cancelled_at }
       end
     end
+  end
+
+  private
+
+  def set_processing_at
+    update_column(:processing_at, Time.current) unless processing_at
+  end
+
+  def set_completed_at
+    update_column(:completed_at, Time.current) unless completed_at
+  end
+
+  def set_cancelled_at
+    update_column(:cancelled_at, Time.current) unless cancelled_at
   end
 end

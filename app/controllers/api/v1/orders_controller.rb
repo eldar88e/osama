@@ -3,6 +3,8 @@ module Api
     class OrdersController < Api::V1::ApplicationController
       include Api::ResourceConcern
 
+      before_action :update_state, only: :update
+
       def index
         q = policy_scope(Order).order(:created_at).includes(:client).ransack(params[:q])
 
@@ -29,6 +31,11 @@ module Api
         )
       end
       # rubocop:enable Rails/StrongParametersExpect
+
+      def update_state
+        binding.irb
+        Api::Order::ChangeStateService.call(@resource, params[:order][:state])
+      end
     end
   end
 end
