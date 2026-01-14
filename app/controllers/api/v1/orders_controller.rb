@@ -34,7 +34,7 @@ module Api
 
       def update_state
         binding.irb
-        Api::Order::ChangeStateService.call(@resource, params[:order][:state])
+        Api::Orders::ChangeStateService.call(@resource, params[:order][:state])
       end
     end
   end

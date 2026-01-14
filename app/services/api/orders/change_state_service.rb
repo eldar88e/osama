@@ -1,5 +1,5 @@
 module Api
-  module Order
+  module Orders
     class ChangeStateService
       def initialize(order, new_state)
         @new_state = new_state
