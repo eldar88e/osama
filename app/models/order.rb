@@ -6,12 +6,16 @@ class Order < ApplicationRecord
   belongs_to :client, class_name: 'User'
 
   has_many :order_items, dependent: :destroy
+  has_one :event, as: :eventable, dependent: :destroy
 
   accepts_nested_attributes_for :order_items, allow_destroy: true
 
   validates :price, numericality: { greater_than_or_equal_to: 0 }
   validates :expense, numericality: { greater_than_or_equal_to: 0 }
   validates :appointment_at, presence: true
+
+  after_create :create_event!
+  after_update :update_event!
 
   def all_items_paid?
     order_items.exists? && order_items.where(paid: false).none?
@@ -41,5 +45,20 @@ class Order < ApplicationRecord
 
   def self.ransackable_associations(_auth_object = nil)
     %w[]
+  end
+
+  private
+
+  def create_event!
+    Event.create!(
+      eventable: self,
+      starts_at: appointment_at,
+      title: 'Запись',
+      kind: :primary
+    )
+  end
+
+  def update_event!
+    event.update!(starts_at: appointment_at) if previous_changes['appointment_at'].present?
   end
 end

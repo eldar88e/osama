@@ -14,6 +14,7 @@ namespace :api do
     resources :contractors, except: %i[new edit]
     resources :services, except: %i[new edit]
     resources :expenses, except: %i[new edit]
+    resources :events, except: %i[new edit]
 
     get :not_found, to: 'application#not_found'
   end
