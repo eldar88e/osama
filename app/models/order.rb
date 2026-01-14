@@ -1,4 +1,6 @@
 class Order < ApplicationRecord
+  ITEM_STATES_FOR_COMPLETED = %i[completed cancelled].freeze
+
   include OrderStateMachine
 
   belongs_to :client, class_name: 'User'
@@ -16,7 +18,7 @@ class Order < ApplicationRecord
   end
 
   def all_items_completed?
-    order_items.exists? && order_items.where.not(state: :completed).none?
+    order_items.exists? && order_items.where.not(state: ITEM_STATES_FOR_COMPLETED).none?
   end
 
   def sync_paid!
