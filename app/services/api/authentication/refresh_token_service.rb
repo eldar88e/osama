@@ -1,3 +1,5 @@
+require 'bcrypt'
+
 module Api
   module Authentication
     class RefreshTokenService
