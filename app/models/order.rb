@@ -50,12 +50,7 @@ class Order < ApplicationRecord
   private
 
   def create_event!
-    Event.create!(
-      eventable: self,
-      starts_at: appointment_at,
-      title: 'Запись',
-      kind: :primary
-    )
+    Event.create!(eventable: self, starts_at: appointment_at, title: 'Запись', kind: :primary)
   end
 
   def update_event!
