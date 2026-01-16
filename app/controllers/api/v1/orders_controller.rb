@@ -3,7 +3,9 @@ module Api
     class OrdersController < Api::V1::ApplicationController
       include Api::ResourceConcern
 
+      # rubocop:disable Rails/LexicallyScopedActionFilter
       before_action :update_state, only: :update
+      # rubocop:enable Rails/LexicallyScopedActionFilter
 
       def index
         q = policy_scope(Order).order(:created_at).includes(:client).ransack(params[:q])

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_14_170253) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_16_033520) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -75,6 +75,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_14_170253) do
     t.string "title", null: false
     t.datetime "updated_at", null: false
     t.index ["eventable_type", "eventable_id"], name: "index_events_on_eventable"
+  end
+
+  create_table "expense_categories", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.string "description"
+    t.integer "position", default: 0, null: false
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active"], name: "index_expense_categories_on_active"
+    t.index ["title"], name: "index_expense_categories_on_title", unique: true
   end
 
   create_table "expenses", force: :cascade do |t|

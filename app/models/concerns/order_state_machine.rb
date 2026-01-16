@@ -33,6 +33,7 @@ module OrderStateMachine
 
   private
 
+  # rubocop:disable Rails/SkipsModelValidations
   def set_processing_at
     update_column(:processing_at, Time.current) unless processing_at
   end
@@ -44,4 +45,5 @@ module OrderStateMachine
   def set_cancelled_at
     update_column(:cancelled_at, Time.current) unless cancelled_at
   end
+  # rubocop:enable Rails/SkipsModelValidations
 end
