@@ -3,5 +3,5 @@ class ExpenseSerializer
 
   root_key :expense
 
-  attributes :id, :amount, :category_id, :description, :spent_at, :created_at
+  attributes :id, :amount, :expense_category_id, :description, :spent_at, :created_at
 end

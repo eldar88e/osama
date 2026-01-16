@@ -1,5 +1,5 @@
 class Expense < ApplicationRecord
-  belongs_to :category, class_name: 'ExpenseCategory', foreign_key: :expense_category_id, inverse_of: :expenses
+  belongs_to :expense_category
 
   validates :amount, numericality: { greater_than_or_equal_to: 0 }
   validates :spent_at, presence: true

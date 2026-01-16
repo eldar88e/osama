@@ -6,7 +6,7 @@ module Api
       private
 
       def expense_params
-        params.expect(expense: %i[amount category_id description spent_at])
+        params.expect(expense: %i[amount expense_category_id description spent_at])
       end
     end
   end
