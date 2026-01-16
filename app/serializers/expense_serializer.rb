@@ -6,6 +6,6 @@ class ExpenseSerializer
   attributes :id, :amount, :description, :spent_at, :created_at
 
   attribute :category do |expense|
-    expense.category&.title
+    expense.expense_category&.title
   end
 end
