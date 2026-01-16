@@ -5,7 +5,7 @@ class Expense < ApplicationRecord
   validates :spent_at, presence: true
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[id amount category description spent_at created_at]
+    %w[id amount expense_category_id description spent_at created_at]
   end
 
   def self.ransackable_associations(_auth_object = nil)
