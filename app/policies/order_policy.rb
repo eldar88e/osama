@@ -19,6 +19,10 @@ class OrderPolicy < ApplicationPolicy
     admin?
   end
 
+  def statistics?
+    admin?
+  end
+
   class Scope < Scope
     def resolve
       if user.admin? || user.manager? || user.staff?
