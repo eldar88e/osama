@@ -10,6 +10,7 @@ namespace :api do
         resources :order_item_performers, only: %i[create update destroy]
       end
     end
+    get :statistics, to: 'orders#statistics'
     resources :cars, except: %i[new edit]
     resources :contractors, except: %i[new edit]
     resources :services, except: %i[new edit]

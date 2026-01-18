@@ -19,6 +19,10 @@ module Api
         render json: OrderShowSerializer.new(@resource)
       end
 
+      def statistics
+        render json: Api::Dashboard::StatisticsService.new.call
+      end
+
       private
 
       # rubocop:disable Rails/StrongParametersExpect
