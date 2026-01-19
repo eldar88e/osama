@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_many :cars, foreign_key: :owner_id, inverse_of: :owner, dependent: :destroy
   has_many :orders, foreign_key: :client_id, dependent: :destroy, inverse_of: :client
   has_many :api_sessions, dependent: :destroy
+  # has_many :investments
 
   before_validation :set_default_attributes, if: :new_record?
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_16_210632) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_19_141851) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -96,6 +96,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_16_210632) do
     t.datetime "spent_at", null: false
     t.datetime "updated_at", null: false
     t.index ["expense_category_id"], name: "index_expenses_on_expense_category_id"
+  end
+
+  create_table "investments", force: :cascade do |t|
+    t.decimal "amount", precision: 12, scale: 2, null: false
+    t.string "comment"
+    t.datetime "created_at", null: false
+    t.datetime "invested_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["invested_at"], name: "index_investments_on_invested_at"
+    t.index ["user_id"], name: "index_investments_on_user_id"
   end
 
   create_table "order_item_performers", force: :cascade do |t|
@@ -216,6 +227,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_16_210632) do
   add_foreign_key "api_sessions", "users"
   add_foreign_key "cars", "users", column: "owner_id"
   add_foreign_key "expenses", "expense_categories"
+  add_foreign_key "investments", "users"
   add_foreign_key "order_item_performers", "order_items"
   add_foreign_key "order_items", "cars"
   add_foreign_key "order_items", "orders"
