@@ -49,7 +49,7 @@ module Api
               delivery_price +
               performer_fee
             SQL
-        )
+          )
       end
 
       def new_orders_week
