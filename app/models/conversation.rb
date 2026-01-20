@@ -1,7 +1,7 @@
 class Conversation < ApplicationRecord
   belongs_to :user, optional: true
 
-  has_many :messages
+  has_many :messages, dependent: :destroy
 
   validates :external_id, presence: true
   validates :source, uniqueness: { scope: :external_id }
