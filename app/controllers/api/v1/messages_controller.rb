@@ -6,7 +6,7 @@ module Api
       def index
         q = policy_scope(resource_class).joins(:conversation)
                                         .where(conversations: { id: params[:conversation_id] })
-                                        .order(desc: :created_at).ransack(params[:q])
+                                        .order(created_at: :desc).ransack(params[:q])
 
         pagy, resources = pagy(q.result, items: 100)
 
