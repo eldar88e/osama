@@ -53,7 +53,8 @@ module Webhooks
           username: from['username'],
           first_name: from['first_name'],
           last_name: from['last_name'],
-          language: from['language_code']
+          language: from['language_code'],
+          photo_url: from['photo_url']
         }
       end
     end
