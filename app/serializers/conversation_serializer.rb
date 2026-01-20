@@ -3,7 +3,7 @@ class ConversationSerializer
 
   root_key :conversation
 
-  attributes :id, :source, :created_at, :user_id
+  attributes :id, :source, :created_at, :last_message_at, :user_id
 
   attribute :user do |conversation|
     conversation.user&.full_name

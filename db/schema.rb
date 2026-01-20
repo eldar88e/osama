@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_20_104048) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_20_155748) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -68,10 +68,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_20_104048) do
   create_table "conversations", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "external_id", null: false
+    t.datetime "last_message_at"
     t.jsonb "meta", default: {}, null: false
     t.integer "source", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
+    t.index ["last_message_at"], name: "index_conversations_on_last_message_at"
     t.index ["source", "external_id"], name: "index_conversations_on_source_and_external_id", unique: true
     t.index ["user_id"], name: "index_conversations_on_user_id"
   end
