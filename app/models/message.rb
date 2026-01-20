@@ -10,6 +10,8 @@ class Message < ApplicationRecord
   validates :text, presence: true
   validates :conversation_id, uniqueness: { scope: :external_id }
 
+  after_commit :update_conversation_last_message_at, on: :create
+
   def strip_text
     self.text = text.strip
   end
@@ -17,4 +19,12 @@ class Message < ApplicationRecord
   def set_direction
     self.direction = :outgoing
   end
+
+  private
+
+  # rubocop:disable Rails/SkipsModelValidations
+  def update_conversation_last_message_at
+    conversation.update_column(:last_message_at, created_at)
+  end
+  # rubocop:enable Rails/SkipsModelValidations
 end
