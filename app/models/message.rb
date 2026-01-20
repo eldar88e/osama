@@ -24,6 +24,7 @@ class Message < ApplicationRecord
 
   # rubocop:disable Rails/SkipsModelValidations
   def update_conversation_last_message_at
+    Rails.logger.warn "Update conversation last message at: #{created_at}"
     conversation.update_column(:last_message_at, created_at)
   end
   # rubocop:enable Rails/SkipsModelValidations
