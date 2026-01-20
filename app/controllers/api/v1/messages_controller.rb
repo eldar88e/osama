@@ -12,7 +12,7 @@ module Api
 
         pagy, resources = pagy(q.result, items: MESSAGES_PER_PAGE)
 
-        render json: { data: serializer.new(resources), meta: pagy_metadata(pagy) }
+        render json: { data: serializer.new(resources.reverse), meta: pagy_metadata(pagy) }
       end
 
       private
