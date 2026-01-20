@@ -6,7 +6,7 @@ module Api
       private
 
       def message_params
-        params.expect(message: %i[conversation_id direction external_id text payload])
+        params.expect(message: %i[text])
       end
     end
   end
