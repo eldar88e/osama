@@ -38,7 +38,6 @@ module Webhooks
       def create_message(conversation, message)
         Message.create!(
           conversation: conversation,
-          source: :telegram,
           direction: :incoming,
           external_id: message['message_id'].to_s,
           text: message['text'],
