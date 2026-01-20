@@ -21,6 +21,10 @@ Rails.application.routes.draw do
   resources :analytics, only: :index
   resources :orders
 
+  namespace :webhooks do
+    resources :telegram, only: :create
+  end
+
   draw :admin
   draw :api
 end

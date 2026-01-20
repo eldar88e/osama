@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_20_102038) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_20_104048) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -118,6 +118,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_20_102038) do
     t.bigint "user_id"
     t.index ["invested_at"], name: "index_investments_on_invested_at"
     t.index ["user_id"], name: "index_investments_on_user_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.bigint "conversation_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "direction", null: false
+    t.string "external_id", null: false
+    t.jsonb "payload", default: {}, null: false
+    t.text "text", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conversation_id", "external_id"], name: "index_messages_on_conversation_id_and_external_id", unique: true
+    t.index ["conversation_id"], name: "index_messages_on_conversation_id"
+    t.index ["created_at"], name: "index_messages_on_created_at"
   end
 
   create_table "order_item_performers", force: :cascade do |t|
@@ -240,6 +253,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_20_102038) do
   add_foreign_key "conversations", "users"
   add_foreign_key "expenses", "expense_categories"
   add_foreign_key "investments", "users"
+  add_foreign_key "messages", "conversations"
   add_foreign_key "order_item_performers", "order_items"
   add_foreign_key "order_items", "cars"
   add_foreign_key "order_items", "orders"

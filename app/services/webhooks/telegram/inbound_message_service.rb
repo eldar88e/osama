@@ -11,7 +11,7 @@ module Webhooks
 
       def call
         message_payload = payload['message'] || payload['edited_message']
-        return unless message_payload
+        raise 'No message or edited_message in payload' unless message_payload
 
         conversation = find_or_create_conversation(message_payload)
         create_message(conversation, message_payload)
