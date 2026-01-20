@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_19_141851) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_20_102038) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -63,6 +63,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_19_141851) do
     t.index ["active"], name: "index_contactors_on_active"
     t.index ["name"], name: "index_contactors_on_name"
     t.index ["phone"], name: "index_contactors_on_phone"
+  end
+
+  create_table "conversations", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "external_id", null: false
+    t.jsonb "meta", default: {}, null: false
+    t.integer "source", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["source", "external_id"], name: "index_conversations_on_source_and_external_id", unique: true
+    t.index ["user_id"], name: "index_conversations_on_user_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -226,6 +237,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_19_141851) do
 
   add_foreign_key "api_sessions", "users"
   add_foreign_key "cars", "users", column: "owner_id"
+  add_foreign_key "conversations", "users"
   add_foreign_key "expenses", "expense_categories"
   add_foreign_key "investments", "users"
   add_foreign_key "order_item_performers", "order_items"
