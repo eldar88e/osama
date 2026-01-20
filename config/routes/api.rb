@@ -18,6 +18,9 @@ namespace :api do
     resources :events, except: %i[new edit]
     resources :expense_categories, except: %i[new edit]
     resources :investments, except: %i[new edit]
+    resources :conversations, except: %i[new edit] do
+      resources :messages, only: %i[index create]
+    end
 
     get :not_found, to: 'application#not_found'
   end
