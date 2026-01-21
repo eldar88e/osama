@@ -4,9 +4,9 @@ module Telegram
   class SenderService
     MESSAGE_LIMIT = 4_090
 
-    def initialize(message, id = nil, **args)
-      @bot_token  = args[:tg_token] || settings[:tg_token]
-      @chat_id    = id == :courier ? settings[:courier_tg_id] : (id || settings[:admin_chat_id])
+    def initialize(message, id, **args)
+      @bot_token  = args[:tg_token] || Setting.all_cached[:tg_token]
+      @chat_id    = id
       @message    = message
       @message_id = nil
       @markups    = markup_params(args)
@@ -78,10 +78,6 @@ module Telegram
         markup_ext_url: args[:markup_ext_url],
         markup_ext_text: args[:markup_ext_text] || args[:markup_text]
       }
-    end
-
-    def settings
-      @settings ||= Setting.all_cached
     end
   end
 end
