@@ -59,7 +59,7 @@ module Webhooks
 
         def send_first_message(sender_id)
           TelegramJob.perform_later(
-            msg: 'Добро пожаловать в наш магазин! Что вас интересует?',
+            msg: 'Добро пожаловать в Автоателье Birson! Что вас интересует?',
             id: sender_id
           )
         end
