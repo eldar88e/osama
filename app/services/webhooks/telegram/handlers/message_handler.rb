@@ -26,11 +26,13 @@ module Webhooks
         attr_reader :payload
 
         def find_or_create_conversation(message)
+          tg_id = message.dig('chat', 'id')
           Conversation.find_or_create_by!(
             source: :telegram,
-            external_id: message.dig('chat', 'id').to_s
+            external_id: tg_id.to_s
           ) do |c|
             c.meta = extract_meta(message)
+            c.user = User.find_by(tg_id: tg_id)
           end
         end
 
