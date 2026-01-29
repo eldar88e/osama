@@ -44,7 +44,7 @@ FROM ruby:3.4.8-alpine3.23 AS runtime
 RUN apk add --no-cache \
     tzdata \
     libpq \
-    libyaml \
+    yaml \
     vips
 #    jemalloc \
 #    ca-certificates
