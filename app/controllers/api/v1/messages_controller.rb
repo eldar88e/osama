@@ -16,7 +16,7 @@ module Api
       end
 
       def create
-        resource = resource_class.new(text: message_params[:message])
+        resource = resource_class.new(message_params[:message])
         Rails.logger.warn params
         Rails.logger.warn message_params
         Rails.logger.warn message_params[:message]
