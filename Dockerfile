@@ -8,8 +8,8 @@ RUN apk add --no-cache \
     postgresql-dev \
     vips-dev \
     yaml-dev \
-    tzdata \
-    yarn
+    tzdata
+#    yarn
 #    ruby-dev
 #    libc6-compat
 
