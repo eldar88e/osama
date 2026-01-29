@@ -20,6 +20,7 @@ namespace :api do
     resources :investments, except: %i[new edit]
     resources :conversations, except: %i[new edit] do
       resources :messages, only: %i[index create]
+      resource :user, only: %i[create], module: :conversations
     end
 
     get :not_found, to: 'application#not_found'

@@ -3,11 +3,11 @@ class Message < ApplicationRecord
 
   enum :direction, { incoming: 0, outgoing: 1 }
 
-  # before_validation :strip_text, on: :create, if: -> { outgoing? && text.present? }
+  before_validation :strip_text, on: :create, if: -> { outgoing? && text.present? }
   before_validation :set_direction, on: :create, if: -> { direction.blank? }
 
   validates :direction, presence: true
-  # validates :text, presence: true
+  validates :text, presence: true
   validates :conversation_id, uniqueness: { scope: :external_id }
 
   after_commit :update_conversation_last_message_at, on: :create

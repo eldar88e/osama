@@ -16,10 +16,7 @@ module Api
       end
 
       def create
-        resource = resource_class.new(message_params)
-        Rails.logger.warn params
-        Rails.logger.warn message_params
-        Rails.logger.warn resource
+        resource     = resource_class.new(message_params)
         conversation = Conversation.find(message_params[:conversation_id])
         external_id = Telegram::SenderService.call(params[:message][:text], conversation.external_id)
         return render json: { errors: external_id&.messages }, status: :unprocessable_entity unless external_id.is_a?(Integer)

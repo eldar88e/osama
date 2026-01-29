@@ -39,21 +39,18 @@ module Telegram
         text_part = next_text_part
         send_telegram_message(text_part, markup)
       end
-      # TODO: Если нужно зафиксировать все msg_id нужно их поместить в array
       @message_id
     end
 
     def send_telegram_message(text_part, markup)
-      [@chat_id.to_s.split(',')].flatten.each do |user_id|
-        Telegram::Bot::Client.run(@bot_token) do |bot|
-          @message_id = bot.api.send_message(
-            chat_id: user_id, text: escape(text_part), parse_mode: 'MarkdownV2', reply_markup: markup
-          ).message_id
-        end
-      rescue StandardError => e
-        Rails.logger.error "Failed to send message to bot: #{e.message}"
-        @message_id = e
+      Telegram::Bot::Client.run(@bot_token) do |bot|
+        @message_id = bot.api.send_message(
+          chat_id: @chat_id, text: escape(text_part), parse_mode: 'MarkdownV2', reply_markup: markup
+        ).message_id
       end
+    rescue StandardError => e
+      Rails.logger.error "Failed to send message to bot: #{e.message}"
+      @message_id = e
     end
 
     def build_markup
