@@ -15,6 +15,18 @@ module Api
         render json: { data: serializer.new(resources.reverse), meta: pagy_metadata(pagy) }
       end
 
+      def create
+        resource = resource_class.new(message_params[:message])
+        resource.conversation = Conversation.find(params[:conversation_id])
+        authorize resource
+
+        if resource.save
+          render json: { data: serializer.new(resource) }, status: :created
+        else
+          render json: { errors: resource.errors.full_messages }, status: :unprocessable_entity
+        end
+      end
+
       private
 
       def message_params
