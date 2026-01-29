@@ -8,4 +8,8 @@ class ConversationSerializer
   attribute :user do |conversation|
     conversation.user&.full_name
   end
+
+  attribute :photo_url do |conversation|
+    conversation.user&.photo_url
+  end
 end
