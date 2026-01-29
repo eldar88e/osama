@@ -15,7 +15,7 @@ module Api
           )
 
           if user.save
-            conversation.update(user: user)
+            conversation.update(user: user, last_message_at: Time.current)
             render json: { data: UserSerializer.new(user) }, status: :created
           else
             render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
