@@ -21,6 +21,7 @@ module Api
 
         resource = resource_class.new(message_params[:message])
         resource.conversation = Conversation.find(params[:conversation_id])
+        resource.external_id = external_id.to_s
         authorize resource
 
         if resource.save
