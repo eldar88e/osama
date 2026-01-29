@@ -14,8 +14,6 @@ RUN apk add --no-cache \
 #    libc6-compat
 
 ENV RAILS_ENV=production \
-    RACK_ENV=production \
-    NODE_ENV=production \
     BUNDLE_DEPLOYMENT=1 \
     BUNDLE_PATH=/usr/local/bundle \
     BUNDLE_WITHOUT="development test"
@@ -50,8 +48,6 @@ RUN apk add --no-cache \
 #    ca-certificates
 
 ENV RAILS_ENV=production \
-    RACK_ENV=production \
-    NODE_ENV=production \
     BUNDLE_DEPLOYMENT=1 \
     BUNDLE_PATH=/usr/local/bundle \
     BUNDLE_WITHOUT="development test"
@@ -59,12 +55,11 @@ ENV RAILS_ENV=production \
 
 WORKDIR /app
 
-COPY --from=builder /usr/local/bundle /usr/local/bundle
-COPY --from=builder /app /app
+RUN addgroup -g 1000 deploy && adduser -u 1000 -G deploy -D -s /bin/sh deploy
+ # && chown -R deploy:deploy /app /usr/local/bundle \
 
-RUN addgroup -g 1000 deploy \
- && adduser -u 1000 -G deploy -D -s /bin/sh deploy \
- && chown -R deploy:deploy /app /usr/local/bundle
+COPY --chown=deploy:deploy --from=builder /app /app
+COPY --chown=deploy:deploy --from=builder /usr/local/bundle /usr/local/bundle
 
 USER deploy:deploy
 
