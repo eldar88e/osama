@@ -9,7 +9,7 @@ RUN apk add --no-cache \
     vips-dev \
     yaml-dev \
     tzdata \
-    yarn \
+    yarn
 #    ruby-dev
 #    libc6-compat
 
