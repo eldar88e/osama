@@ -1,7 +1,10 @@
+# RAILS_ENV=production rails assets:precompile
+# docker compose exec app bundle exec rails db:migrate
+
 services:
   app:
-    tty: true
-    stdin_open: true
+#    tty: true
+#    stdin_open: true
     image: crm
     build: .
     env_file: ./.env
@@ -11,9 +14,9 @@ services:
       - pg
     entrypoint: ["/app/bin/docker-entrypoint"]
 #    command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
-    volumes:
-      - gems:/usr/local/bundle
-      - .:/app
+#    volumes:
+#      - gems:/usr/local/bundle
+#      - .:/app
     ports:
       - "127.0.0.1:3001:3000"
       - "172.17.0.1:3001:3000"
@@ -30,9 +33,9 @@ services:
     depends_on:
       - pg
     command: ['bundle', 'exec', 'rails', 'solid_queue:start']
-    volumes:
-      - gems:/usr/local/bundle
-      - .:/app
+#    volumes:
+#      - gems:/usr/local/bundle
+#      - .:/app
     networks:
       - net
     restart: unless-stopped
@@ -48,14 +51,13 @@ services:
       TZ: Europe/Moscow
     volumes:
       - db_data:/var/lib/postgresql/data
-      # - ./postgresql.conf:/var/lib/postgresql/data/postgresql.conf
     networks:
       - net
     restart: unless-stopped
 
 volumes:
   db_data:
-  gems:
+#  gems:
 
 networks:
   net:

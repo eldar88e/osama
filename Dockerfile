@@ -1,39 +1,70 @@
-FROM ruby:3.4.8-alpine3.23 AS miniapp
+# =========================
+# Builder
+# =========================
+FROM ruby:3.4.8-alpine3.23 AS builder
 
-RUN apk --update add --no-cache \
+RUN apk add --no-cache \
     build-base \
+    ruby-dev \
+    postgresql-dev \
+    vips-dev \
     yaml-dev \
     tzdata \
     yarn \
-    libc6-compat \
-    postgresql-dev \
-    curl \
-    ruby-dev \
-    vips-dev \
-    && rm -rf /var/cache/apk/*
+    libc6-compat
 
-ENV BUNDLE_DEPLOYMENT="1" \
-    BUNDLE_PATH="/usr/local/bundle" \
+ENV RAILS_ENV=production \
+    RACK_ENV=production \
+    NODE_ENV=production \
+    BUNDLE_DEPLOYMENT=1 \
+    BUNDLE_PATH=/usr/local/bundle \
     BUNDLE_WITHOUT="development test"
 
 WORKDIR /app
 
 COPY Gemfile Gemfile.lock ./
-# RUN gem update --system 4.0.2
-RUN gem install bundler -v $(tail -n 1 Gemfile.lock)
-RUN bundle check || bundle install --jobs=2 --retry=3
-RUN bundle clean --force
+RUN gem install bundler -v "$(tail -n 1 Gemfile.lock)" \
+ && bundle install --jobs=4 --retry=3 \
+ && bundle clean --force \
+ && rm -rf /usr/local/bundle/cache
 
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+# COPY package.json yarn.lock ./
+# RUN yarn install --frozen-lockfile --production
 
 COPY . .
 
-# RUN bundle exec bootsnap precompile --gemfile app/ lib/ config/
+RUN bundle exec bootsnap precompile --gemfile app/ lib/ config/
+RUN SECRET_KEY_BASE=dummy bundle exec rails assets:precompile
 
-RUN addgroup -g 1000 deploy && adduser -u 1000 -G deploy -D -s /bin/sh deploy
+# =========================
+# Runtime layer
+# =========================
+FROM ruby:3.4.8-alpine3.23 AS runtime
 
-# RUN chown -R deploy:deploy /usr/local/bundle
+RUN apk add --no-cache \
+    tzdata \
+    libpq \
+    libyaml \
+    vips
+#    jemalloc \
+#    ca-certificates
+
+ENV RAILS_ENV=production \
+    RACK_ENV=production \
+    NODE_ENV=production \
+    BUNDLE_DEPLOYMENT=1 \
+    BUNDLE_PATH=/usr/local/bundle \
+    BUNDLE_WITHOUT="development test"
+#    LD_PRELOAD=/usr/lib/libjemalloc.so.2
+
+WORKDIR /app
+
+COPY --from=builder /usr/local/bundle /usr/local/bundle
+COPY --from=builder /app /app
+
+RUN addgroup -g 1000 deploy \
+ && adduser -u 1000 -G deploy -D -s /bin/sh deploy \
+ && chown -R deploy:deploy /app /usr/local/bundle
 
 USER deploy:deploy
 
