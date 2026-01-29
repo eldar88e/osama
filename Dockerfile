@@ -5,13 +5,13 @@ FROM ruby:3.4.8-alpine3.23 AS builder
 
 RUN apk add --no-cache \
     build-base \
-    ruby-dev \
     postgresql-dev \
     vips-dev \
     yaml-dev \
     tzdata \
     yarn \
-    libc6-compat
+#    ruby-dev
+#    libc6-compat
 
 ENV RAILS_ENV=production \
     RACK_ENV=production \
