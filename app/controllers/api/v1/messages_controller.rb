@@ -16,13 +16,12 @@ module Api
       end
 
       def create
-        resource = resource_class.new(message_params[:message])
+        resource = resource_class.new(message_params)
         Rails.logger.warn params
         Rails.logger.warn message_params
-        Rails.logger.warn message_params[:message]
         Rails.logger.warn resource
-        resource.conversation = Conversation.find(params[:conversation_id])
-        external_id = Telegram::SenderService.call(params[:message][:text], resource.conversation.external_id)
+        conversation = Conversation.find(message_params[:conversation_id])
+        external_id = Telegram::SenderService.call(params[:message][:text], conversation.external_id)
         return render json: { errors: external_id&.messages }, status: :unprocessable_entity unless external_id.is_a?(Integer)
 
         resource.external_id = external_id.to_s
@@ -38,7 +37,7 @@ module Api
       private
 
       def message_params
-        params.expect(message: %i[text])
+        params.expect(message: %i[text conversation_id])
       end
     end
   end
