@@ -59,7 +59,7 @@ RUN addgroup -g 1000 deploy && adduser -u 1000 -G deploy -D -s /bin/sh deploy
 # && chown -R deploy:deploy /app /usr/local/bundle \
 
 COPY --chown=deploy:deploy --from=builder /app /app
-COPY --chown=deploy:deploy --from=builder /usr/local/bundle /usr/local/bundle
+COPY --from=builder /usr/local/bundle /usr/local/bundle
 
 USER deploy:deploy
 
