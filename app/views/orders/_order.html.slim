@@ -4,7 +4,7 @@ tr id="#{dom_id resource}" class="bg-white border-b dark:bg-gray-800 dark:border
   th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
     = t("order.states.#{resource.state}")
   td class="px-6 py-4 whitespace-normal"
-    = resource.user.full_name
+    = resource.client.full_name
   td class="px-6 py-4"
     = resource.paid? ? 'Да' : 'Нет'
   td class="px-6 py-4"
