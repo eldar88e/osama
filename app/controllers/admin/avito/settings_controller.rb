@@ -17,7 +17,7 @@ module Admin
           else
             'https://api.avito.ru/messenger/v3/webhook'
           end
-        binding.irb
+
         result = fetch_and_parse(url, :post, { url: @webhook_url })
         return error_notice(t('controllers.avito.settings.update.error')) unless result['ok']
 
