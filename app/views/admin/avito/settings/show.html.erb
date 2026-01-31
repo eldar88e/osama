@@ -7,9 +7,9 @@
       <% end %>
 
       <% if @subscriptions.any? { |i| i['url'] == @webhook_url } %>
-        <%= button_to 'Отписатся', admin_avito_setting_path(id: 1, subscription_del: true), method: :patch, class: 'btn btn-danger' %>
+        <%= button_to 'Отписатся', admin_avito_settings_path(subscription_del: true), method: :patch, class: 'btn btn-danger' %>
       <% else %>
-        <%= button_to 'Подписаться', admin_avito_setting_path(id: 1), method: :patch, class: 'btn btn-primary' %>
+        <%= button_to 'Подписаться', admin_avito_settings_path, method: :patch, class: 'btn btn-primary' %>
       <% end %>
     </div>
   </div>

@@ -28,5 +28,4 @@ Rails.application.routes.draw do
 
   draw :admin
   draw :api
-  draw :avito
 end

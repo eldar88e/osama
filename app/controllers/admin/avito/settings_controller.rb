@@ -5,7 +5,7 @@ module Admin
 
       before_action :set_webhook_url
 
-      def index
+      def show
         subscriptions_url = 'https://api.avito.ru/messenger/v1/subscriptions'
         @subscriptions    = fetch_and_parse(subscriptions_url, :post, {})['subscriptions']
       end
@@ -22,7 +22,7 @@ module Admin
         return error_notice(t('controllers.avito.settings.update.error')) unless result['ok']
 
         flash[:notice] = t('controllers.avito.settings.update.success')
-        redirect_to "/stores/#{@store.id}/avito/webhooks/receive"
+        redirect_to admin_avito_settings_path
       end
 
       private
