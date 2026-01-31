@@ -23,8 +23,10 @@ Rails.application.routes.draw do
 
   namespace :webhooks do
     resources :telegram, only: :create
+    resource :avito, only: :create
   end
 
   draw :admin
   draw :api
+  draw :avito
 end

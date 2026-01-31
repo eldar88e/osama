@@ -11,6 +11,7 @@ module Webhooks
         end
 
         def call
+          raise 'No implemented callback_query handler'
           # TODO: Handle callback query
         end
       end

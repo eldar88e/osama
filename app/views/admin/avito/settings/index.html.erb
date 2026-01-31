@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-9">
+      <h5>Подписки на webhooks</h5>
+      <% @subscriptions.each do |subscription| %>
+        <div class="mb-3"><%= subscription['url'] %></div>
+      <% end %>
+
+      <% if @subscriptions.any? { |i| i['url'] == @webhook_url } %>
+        <%= button_to 'Отписатся', admin_avito_setting_path(id: 1, subscription_del: true), method: :patch, class: 'btn btn-danger' %>
+      <% else %>
+        <%= button_to 'Подписаться', admin_avito_setting_path(id: 1), method: :patch, class: 'btn btn-primary' %>
+      <% end %>
+    </div>
+  </div>
+</div>
