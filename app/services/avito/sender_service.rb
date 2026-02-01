@@ -1,9 +1,11 @@
 module Avito
   class SenderService
+    ALLOV_MESSAGE_TYPES = %w[text image].freeze
+
     def initialize(text, chat_id, **args)
       @text = text
       @chat_id = chat_id
-      @type = args[:type] || 'text'
+      @type = args[:type] || ALLOV_MESSAGE_TYPES[0]
     end
 
     def self.call(text, chat_id, **args)
@@ -14,11 +16,15 @@ module Avito
       set_avito
       set_account
       url = msg_url(1)
-      raise "Unknown message type: #{@type}" unless %w[text].include?(@type)
+      raise "Unknown message type: #{@type}" unless ALLOV_MESSAGE_TYPES.include?(@type)
 
-      payload = { message: { text: @text }, type: @type }
-      fetch_and_parse(url, :post, payload)
-      1
+      result = fetch_and_parse(url, :post, { message: { text: @text }, type: @type })
+      raise 'Unknow message_id for Avito send message' if result&.dig('id').blank?
+
+      { msg_type: result['type'], id: result['id'], published_at: Time.zone.at(result['created']) }
+    rescue StandardError => error
+      Rails.logger.error "Avito::SenderService error: #{error.message}"
+      error
     end
 
     private

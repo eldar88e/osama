@@ -38,11 +38,13 @@ module Api
         @resource = resource_class.new(message_params)
         authorize @resource
         conversation = Conversation.find(message_params[:conversation_id])
-        external_id  = send_to_service(conversation)
-        if external_id.is_a?(Integer)
-          @resource.external_id = external_id.to_s
+        result = send_to_service(conversation)
+        if external_id.is_a?(Hash)
+          @resource.external_id  = result[:external_id]
+          @resource.published_at = result[:published_at]
+          @resource.msg_type     = result[:msg_type]
         else
-          render json: { errors: external_id&.messages }, status: :unprocessable_content
+          render json: { errors: external_id&.message }, status: :unprocessable_content
         end
       end
 

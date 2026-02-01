@@ -39,7 +39,8 @@ module Telegram
         text_part = next_text_part
         send_telegram_message(text_part, markup)
       end
-      @message_id
+      # @message_id
+      { msg_type: 'text', id: @message_id, published_at: Time.current }
     end
 
     def send_telegram_message(text_part, markup)

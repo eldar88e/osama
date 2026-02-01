@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_01_153551) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_01_184547) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -125,8 +125,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_01_153551) do
   create_table "messages", force: :cascade do |t|
     t.bigint "conversation_id", null: false
     t.datetime "created_at", null: false
+    t.jsonb "data", default: {}
     t.integer "direction", null: false
     t.string "external_id", null: false
+    t.integer "msg_type", default: 0
     t.jsonb "payload", default: {}, null: false
     t.datetime "published_at"
     t.text "text", null: false

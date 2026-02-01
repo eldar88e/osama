@@ -2,6 +2,7 @@ class Message < ApplicationRecord
   belongs_to :conversation
 
   enum :direction, { incoming: 0, outgoing: 1 }
+  enum :msg_type, { text: 0, image: 1, video: 2, audio: 3, file: 4, sticker: 5, location: 6, contact: 7 }
 
   before_validation :strip_text, on: :create, if: -> { outgoing? && text.present? }
   before_validation :set_direction, on: :create, if: -> { direction.blank? }
