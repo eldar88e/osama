@@ -66,7 +66,7 @@ module Avito
     def send_file_message
       url     = "https://api.avito.ru/messenger/v1/accounts/#{@account['id']}/uploadImages"
       payload = {
-        'uploadfile' => Faraday::UploadIO.new(@uploadfile.path, @uploadfile.content_type, @uploadfile.original_filename)
+        'uploadfile[]' => Faraday::UploadIO.new(@uploadfile.path, @uploadfile.content_type, @uploadfile.original_filename)
       }
       headers  = { 'Authorization' => "Bearer #{@avito.token}" }
       response = @avito.connect_to(url, :post, payload, headers: headers, multipart: true)
