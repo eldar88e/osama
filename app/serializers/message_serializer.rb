@@ -3,5 +3,5 @@ class MessageSerializer
 
   root_key :message
 
-  attributes :id, :conversation_id, :direction, :text, :created_at
+  attributes :id, :conversation_id, :direction, :text, :created_at, :published_at, :msg_type, :data
 end
