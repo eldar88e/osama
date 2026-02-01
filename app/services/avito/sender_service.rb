@@ -68,8 +68,7 @@ module Avito
       binding.irb
       response = @avito.connect_to(
         url, :post,
-        { images: [Faraday::UploadIO.new(@uploadfile.path, @uploadfile.content_type)] },
-        headers: { 'Authorization' => "Bearer #{@avito.token}", 'Content-Type' => 'multipart/form-data' }
+        { images: [Faraday::UploadIO.new(@uploadfile, @uploadfile.content_type)] }
       )
 
       image        = response.body
