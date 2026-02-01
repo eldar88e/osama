@@ -42,6 +42,11 @@ class AvitoService
 
     connection.send(method) do |req|
       req.headers = args[:headers] || @headers
+      if args[:headers]
+        req.headers.merge!(args[:headers])
+      else
+        req.headers = @headers
+      end
       if payload
         req.body = request == :multipart || args[:form] ? payload : payload.to_json
       end
