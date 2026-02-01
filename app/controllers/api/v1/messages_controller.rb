@@ -39,7 +39,7 @@ module Api
         authorize @resource
         conversation = Conversation.find(message_params[:conversation_id])
         result = send_to_service(conversation)
-        if external_id.is_a?(Hash)
+        if result.is_a?(Hash)
           @resource.external_id  = result[:external_id]
           @resource.published_at = result[:published_at]
           @resource.msg_type     = result[:msg_type]
