@@ -17,10 +17,9 @@ module Avito
       set_avito
       set_account
       return send_file_message if @uploadfile.present?
-
-      url = msg_url(1)
       raise "Unknown message type: #{@type}" unless ALLOWED_MESSAGE_TYPES.include?(@type)
 
+      url = message_url
       result = fetch_and_parse(url, :post, { message: { text: @text }, type: @type })
       raise 'Unknow message_id for Avito send message' if result&.dig('id').blank?
 
@@ -32,8 +31,8 @@ module Avito
 
     private
 
-    def msg_url(version = 3)
-      "https://api.avito.ru/messenger/v#{version}/accounts/#{@account['id']}/chats/#{@chat_id}/messages"
+    def message_url
+      "https://api.avito.ru/messenger/v1/accounts/#{@account['id']}/chats/#{@chat_id}/messages"
     end
 
     def set_account

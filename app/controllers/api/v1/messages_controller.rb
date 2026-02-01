@@ -52,7 +52,7 @@ module Api
         elsif conversation.source.to_sym == :avito
           binding.irb
           Avito::SenderService.call(
-            params[:message][:text], conversation.external_id, uploadfile: params[:messages][:uploadfile]
+            params.dig(:message, :text), conversation.external_id, uploadfile: params[:messages][:uploadfile]
           )
         else
           # TODO: Implement other sources
