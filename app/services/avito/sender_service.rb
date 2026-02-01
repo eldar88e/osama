@@ -44,12 +44,12 @@ module Avito
     rescue JSON::ParserError => e
       { 'error' => "Ошибка парсинга JSON: #{e.message}" }
     end
-  end
 
-  def set_avito
-    @avito = AvitoService.new
-    return if @avito.token_status.nil? || @avito.token_status == 200
+    def set_avito
+      @avito = AvitoService.new
+      return if @avito.token_status.nil? || @avito.token_status == 200
 
-    error_notice t('avito.error.set_avito')
+      error_notice t('avito.error.set_avito')
+    end
   end
 end
