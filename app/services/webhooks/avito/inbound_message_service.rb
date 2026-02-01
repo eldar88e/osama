@@ -1,6 +1,8 @@
 module Webhooks
   module Avito
     class InboundMessageService
+      ALLOV_MESSAGE_TYPES = %w[text image].freeze
+
       def initialize(payload)
         @payload = payload
       end
@@ -26,12 +28,8 @@ module Webhooks
 
       def save_message(message)
         conversation = find_or_create_conversation(message)
-        if message['type'] != 'text'
-          create_message(conversation, message)
-          raise StandardError, 'Unknown message type'
-        end
-
-        create_message(conversation, message, message['content']['text'])
+        create_message(conversation, message)
+        raise StandardError, "Unknown message type #{message['type']}" if ALLOV_MESSAGE_TYPES.include?(message['type'])
       end
 
       def find_or_create_conversation(message)
@@ -44,15 +42,26 @@ module Webhooks
         end
       end
 
-      def create_message(conversation, message, text = nil)
-        Message.create!(
+      def create_message(conversation, message)
+        start_data = {
           conversation: conversation,
           direction: :incoming,
           external_id: message['id'],
-          text: text,
           published_at: Time.zone.at(message['created']),
-          payload: text.nil? ? message : {}
-        )
+        }
+        data = make_message_data(message)
+        Message.create!(start_data.merge(data))
+      end
+
+      def make_message_data(message)
+        case message['type']
+        when 'text'
+          { text: message.dig('content', 'text') }
+        when 'image'
+          { msg_type: 'image_url', data: { photo: message.dig('content', 'image', 'sizes', '1280x960') } }
+        else
+          { payload: message }
+        end
       end
     end
   end
