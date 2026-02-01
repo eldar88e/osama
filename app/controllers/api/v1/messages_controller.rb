@@ -43,6 +43,7 @@ module Api
           @resource.external_id  = result[:id]
           @resource.published_at = result[:published_at]
           @resource.msg_type     = result[:msg_type]
+          @resource.data         = result[:data]
         else
           render json: { errors: result&.message }, status: :unprocessable_content
         end
@@ -52,7 +53,9 @@ module Api
         if conversation.source.to_sym == :telegram
           Telegram::SenderService.call(params[:message][:text], conversation.external_id)
         elsif conversation.source.to_sym == :avito
-          Avito::SenderService.call(params[:message][:text], conversation.external_id)
+          Avito::SenderService.call(
+            params[:message][:text], conversation.external_id, uploadfile: params[:messages][:uploadfile]
+          )
         else
           # TODO: Implement other sources
           raise "Unsupported conversation source: #{conversation.source}"

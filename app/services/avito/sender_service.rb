@@ -3,9 +3,10 @@ module Avito
     ALLOV_MESSAGE_TYPES = %w[text image].freeze
 
     def initialize(text, chat_id, **args)
-      @text = text
-      @chat_id = chat_id
-      @type = args[:type] || ALLOV_MESSAGE_TYPES[0]
+      @text       = text
+      @chat_id    = chat_id
+      @type       = args[:type] || ALLOV_MESSAGE_TYPES[0]
+      @uploadfile = args[:uploadfile]
     end
 
     def self.call(text, chat_id, **args)
@@ -16,6 +17,7 @@ module Avito
       set_avito
       set_account
       url = msg_url(1)
+      return send_file_message if @uploadfile.present?
       raise "Unknown message type: #{@type}" unless ALLOV_MESSAGE_TYPES.include?(@type)
 
       result = fetch_and_parse(url, :post, { message: { text: @text }, type: @type })
@@ -59,6 +61,24 @@ module Avito
       return if @avito.token_status.nil? || @avito.token_status == 200
 
       error_notice t('avito.error.set_avito')
+    end
+
+    def send_file_message
+      url = "https://api.avito.ru/messenger/v1/accounts/#{@account['id']}/uploadImages"
+      binding.irb
+      response = @avito.connect_to(
+        url, :post,
+        { images: [Faraday::UploadIO.new(@uploadfile.path, @uploadfile.content_type)] },
+        headers: { 'Authorization' => "Bearer #{@avito.token}", 'Content-Type' => 'multipart/form-data' }
+      )
+
+      image        = response.body
+      image_id     = image.keys.first.to_s
+      url_img_send = "https://api.avito.ru/messenger/v1/accounts/#{@account['id']}/chats/#{@chat_id}/messages/image"
+      result = fetch_and_parse(url_img_send, :post, { image_id: image_id })
+
+      { msg_type: result['type'], id: result['id'], published_at: Time.zone.at(result['created']),
+        data: { image_url: result['content']['image']['sizes']['1280x960'] } }
     end
   end
 end
