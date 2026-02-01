@@ -35,8 +35,7 @@ class AvitoService
       end
 
     connection = Faraday.new(url:) do |faraday|
-      faraday.request :multipart if request == :multipart
-      faraday.request request unless request == :multipart
+      faraday.request request
       faraday.response :logger if Rails.env.development?
       faraday.adapter Faraday.default_adapter
     end
