@@ -40,7 +40,7 @@ module Api
         conversation = Conversation.find(message_params[:conversation_id])
         result = send_to_service(conversation)
         if result.is_a?(Hash)
-          @resource.external_id  = result[:external_id]
+          @resource.external_id  = result[:id]
           @resource.published_at = result[:published_at]
           @resource.msg_type     = result[:msg_type]
         else
