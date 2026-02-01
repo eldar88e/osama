@@ -8,7 +8,7 @@ module Api
           # TODO: Add authorization check
           user = set_user
           if user.save
-            conversation.update(user: user, last_message_at: Time.current)
+            @conversation.update(user: user, last_message_at: Time.current)
             render json: { data: UserSerializer.new(user) }, status: :created
           else
             render json: { errors: user.errors.full_messages }, status: :unprocessable_content
@@ -22,6 +22,8 @@ module Api
         end
 
         def set_user
+          return save_user_from_avito if @conversation.source == 'avito'
+
           meta = @conversation.meta
 
           User.new(
@@ -31,6 +33,11 @@ module Api
             username: meta['username'],
             photo_url: meta['photo_url']
           )
+        end
+
+        def save_user_from_avito
+          meta = @conversation.meta
+          User.new(avito_id: meta['author_id'])
         end
       end
     end

@@ -40,6 +40,7 @@ module Webhooks
           external_id: message['chat_id']
         ) do |c|
           c.user = User.find_by(avito_id: message['author_id'])
+          c.meta = { author_id: message['author_id'] }
         end
       end
 
