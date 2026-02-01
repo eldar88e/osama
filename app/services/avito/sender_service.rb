@@ -80,6 +80,7 @@ module Avito
         data: { image_url: result['content']['image']['sizes']['1280x960'] } }
     rescue StandardError => error
       Rails.logger.error "Avito::SenderService send_file_message error: #{error.message}"
+      binding.irb
       error
     end
   end
