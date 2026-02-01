@@ -16,12 +16,15 @@ module Webhooks
       end
 
       def call
-        if @payload['payload']['type'] == 'message'
+        unless @payload['payload']['type'] == 'message'
+  raise StandardError, "Unknown Avito webhook type: #{@payload['payload']['type']}"
+end
+
           message = @payload.dig('payload', 'value')
           save_message message
-        else
-          raise StandardError, "Unknown Avito webhook type: #{@payload['payload']['type']}"
-        end
+        
+          
+        
       end
 
       private
@@ -29,7 +32,9 @@ module Webhooks
       def save_message(message)
         conversation = find_or_create_conversation(message)
         create_message(conversation, message)
-        raise StandardError, "Unknown message type #{message['type']}" if ALLOV_MESSAGE_TYPES.include?(message['type'])
+        return if ALLOV_MESSAGE_TYPES.include?(message['type'])
+
+        raise StandardError, "Unknown message type #{message['type']}"
       end
 
       def find_or_create_conversation(message)
