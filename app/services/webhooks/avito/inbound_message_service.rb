@@ -47,13 +47,14 @@ module Webhooks
           conversation: conversation,
           direction: :incoming,
           external_id: message['id'],
-          published_at: Time.zone.at(message['created']),
+          published_at: Time.zone.at(message['created'])
         }
         data = make_message_data(message)
         Message.create!(start_data.merge(data))
       end
 
       def make_message_data(message)
+        binding.pry
         case message['type']
         when 'text'
           { text: message.dig('content', 'text') }
