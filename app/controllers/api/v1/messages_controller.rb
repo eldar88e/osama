@@ -44,7 +44,7 @@ module Api
           @resource.published_at = result[:published_at]
           @resource.msg_type     = result[:msg_type]
         else
-          render json: { errors: external_id&.message }, status: :unprocessable_content
+          render json: { errors: result&.message }, status: :unprocessable_content
         end
       end
 
