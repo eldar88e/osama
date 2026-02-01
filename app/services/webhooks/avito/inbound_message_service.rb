@@ -59,12 +59,11 @@ end
       end
 
       def make_message_data(message)
-        binding.pry
         case message['type']
         when 'text'
           { text: message.dig('content', 'text') }
         when 'image'
-          { msg_type: 'image_url', data: { photo: message.dig('content', 'image', 'sizes', '1280x960') } }
+          { msg_type: 'image', data: { image_url: message.dig('content', 'image', 'sizes', '1280x960') } }
         else
           { payload: message }
         end
