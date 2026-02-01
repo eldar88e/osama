@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_29_150637) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_01_153551) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -128,6 +128,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_29_150637) do
     t.integer "direction", null: false
     t.string "external_id", null: false
     t.jsonb "payload", default: {}, null: false
+    t.datetime "published_at"
     t.text "text", null: false
     t.datetime "updated_at", null: false
     t.index ["conversation_id", "external_id"], name: "index_messages_on_conversation_id_and_external_id", unique: true
@@ -216,6 +217,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_29_150637) do
     t.boolean "active", default: true, null: false
     t.string "actual_address"
     t.string "additional_phone"
+    t.string "avito_id"
     t.string "bank_name"
     t.string "bik"
     t.string "checking_account"
@@ -248,10 +250,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_29_150637) do
     t.bigint "tg_id"
     t.datetime "updated_at", null: false
     t.string "username"
+    t.index ["avito_id"], name: "index_users_on_avito_id", unique: true
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["tg_id"], name: "index_users_on_tg_id", unique: true
+    t.unique_constraint ["tg_id"], name: "index_users_on_tg_id"
   end
 
   add_foreign_key "api_sessions", "users"

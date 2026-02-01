@@ -26,9 +26,12 @@ module Webhooks
 
       def save_message(message)
         conversation = find_or_create_conversation(message)
-        raise StandardError, 'Unknown message type' if message['type'] != 'text'
+        if message['type'] != 'text'
+          create_message(conversation, message)
+          raise StandardError, 'Unknown message type'
+        end
 
-        create_message(conversation, message)
+        create_message(conversation, message, message['content']['text'])
       end
 
       def find_or_create_conversation(message)
@@ -40,13 +43,14 @@ module Webhooks
         end
       end
 
-      def create_message(conversation, message)
+      def create_message(conversation, message, text = nil)
         Message.create!(
           conversation: conversation,
           direction: :incoming,
           external_id: message['id'],
-          text: message['text'],
-          payload: message['content']['text']
+          text: text,
+          published_at: Time.zone.at(message['created']),
+          payload: text.nil? ? message : nil
         )
       end
     end
