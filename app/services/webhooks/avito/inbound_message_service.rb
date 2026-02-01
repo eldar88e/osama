@@ -51,7 +51,7 @@ module Webhooks
           external_id: message['id'],
           text: text,
           published_at: Time.zone.at(message['created']),
-          payload: text.nil? ? message : nil
+          payload: text.nil? ? message : {}
         )
       end
     end
