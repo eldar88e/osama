@@ -59,7 +59,6 @@ end
       end
 
       def make_message_data(message)
-        binding.irb
         case message['type']
         when 'text'
           { text: message.dig('content', 'text') }
