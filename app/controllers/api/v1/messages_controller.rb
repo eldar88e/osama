@@ -31,7 +31,7 @@ module Api
       end
 
       def make_resource
-        @resource = resource_class.new(params[:conversation_id])
+        @resource = resource_class.new(conversation_id: params[:conversation_id])
         authorize @resource
         conversation = Conversation.find(params[:conversation_id])
         result       = send_to_service(conversation)
