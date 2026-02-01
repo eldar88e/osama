@@ -25,16 +25,27 @@ class AvitoService
   private
 
   def send_request(url, method, payload, **args)
-    request    = method == :get || args[:url_encoded] ? :url_encoded : :json
+    request =
+      if args[:multipart]
+        :multipart
+      elsif method == :get || args[:url_encoded]
+        :url_encoded
+      else
+        :json
+      end
+
     connection = Faraday.new(url:) do |faraday|
-      faraday.request request
+      faraday.request :multipart if request == :multipart
+      faraday.request request unless request == :multipart
       faraday.response :logger if Rails.env.development?
       faraday.adapter Faraday.default_adapter
     end
 
     connection.send(method) do |req|
       req.headers = args[:headers] || @headers
-      req.body    = args[:form] ? payload : payload.to_json if payload
+      if payload
+        req.body = request == :multipart || args[:form] ? payload : payload.to_json
+      end
     end
   end
 

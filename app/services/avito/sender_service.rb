@@ -64,9 +64,13 @@ module Avito
     end
 
     def send_file_message
-      url      = "https://api.avito.ru/messenger/v1/accounts/#{@account['id']}/uploadImages"
-      payload  = { 'uploadfile[]' => [Faraday::UploadIO.new(@uploadfile.path, @uploadfile.content_type)] }
-      header   = { 'Authorization' => "Bearer #{@avito.token}", 'Content-Type' => 'multipart/form-data' }
+      url     = "https://api.avito.ru/messenger/v1/accounts/#{@account['id']}/uploadImages"
+      payload = {
+        'uploadfile[]' => [
+          Faraday::UploadIO.new(@uploadfile.path, @uploadfile.content_type, @uploadfile.original_filename)
+        ]
+      }
+      header = { 'Authorization' => "Bearer #{@avito.token}" }
       binding.irb
       response = @avito.connect_to(url, :post, payload, headers: header)
 
