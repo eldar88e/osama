@@ -11,7 +11,7 @@ class AvitoService
     @headers      = { 'Authorization' => "Bearer #{@token}", 'Content-Type' => 'application/json' }
   end
 
-  attr_reader :token_status
+  attr_reader :token_status, :token
 
   def connect_to(url, method = :get, payload = nil, **args)
     return if @token.blank? && args[:headers].blank?
@@ -39,7 +39,7 @@ class AvitoService
   end
 
   def fetch_token
-    result = Rails.cache.fetch(:avito_token, expires_in: 8.hours) { refresh_token }
+    result = Rails.cache.fetch(:avito_token, expires_in: 23.hours) { refresh_token }
     Rails.cache.delete(:avito_token) if result.blank?
     result
   end

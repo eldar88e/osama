@@ -36,7 +36,7 @@ module Avito
     end
 
     def set_account
-      @account = fetch_cached(:account_avito, 6.hours, url: 'https://api.avito.ru/core/v1/accounts/self')
+      @account = fetch_cached(:account_avito, 1.day, url: 'https://api.avito.ru/core/v1/accounts/self')
     end
 
     def fetch_cached(key, expires_in = 5.minutes, **args)
@@ -64,12 +64,11 @@ module Avito
     end
 
     def send_file_message
-      url = "https://api.avito.ru/messenger/v1/accounts/#{@account['id']}/uploadImages"
+      url      = "https://api.avito.ru/messenger/v1/accounts/#{@account['id']}/uploadImages"
+      payload  = { 'uploadfile[]' => [Faraday::UploadIO.new(@uploadfile.path, @uploadfile.content_type)] }
+      header   = { 'Authorization' => "Bearer #{@avito.token}", 'Content-Type' => 'multipart/form-data' }
       binding.irb
-      response = @avito.connect_to(
-        url, :post,
-        { images: [Faraday::UploadIO.new(@uploadfile, @uploadfile.content_type)] }
-      )
+      response = @avito.connect_to(url, :post, payload, headers: header)
 
       image        = response.body
       image_id     = image.keys.first.to_s
