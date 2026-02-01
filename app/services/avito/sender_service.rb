@@ -16,7 +16,7 @@ module Avito
       url = msg_url(1)
       raise "Unknown message type: #{@type}" unless %w[text].include?(@type)
 
-      payload = { message: { text: text }, type: @type }
+      payload = { message: { text: @text }, type: @type }
       fetch_and_parse(url, :post, payload)
       1
     end
