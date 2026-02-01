@@ -1,11 +1,11 @@
 module Avito
   class SenderService
-    ALLOV_MESSAGE_TYPES = %w[text image].freeze
+    ALLOWED_MESSAGE_TYPES = %w[text image].freeze
 
     def initialize(text, chat_id, **args)
       @text       = text
       @chat_id    = chat_id
-      @type       = args[:type] || ALLOV_MESSAGE_TYPES[0]
+      @type       = args[:type] || ALLOWED_MESSAGE_TYPES[0]
       @uploadfile = args[:uploadfile]
     end
 
@@ -16,9 +16,10 @@ module Avito
     def call
       set_avito
       set_account
-      url = msg_url(1)
       return send_file_message if @uploadfile.present?
-      raise "Unknown message type: #{@type}" unless ALLOV_MESSAGE_TYPES.include?(@type)
+
+      url = msg_url(1)
+      raise "Unknown message type: #{@type}" unless ALLOWED_MESSAGE_TYPES.include?(@type)
 
       result = fetch_and_parse(url, :post, { message: { text: @text }, type: @type })
       raise 'Unknow message_id for Avito send message' if result&.dig('id').blank?
