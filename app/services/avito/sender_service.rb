@@ -1,19 +1,22 @@
 module Avito
   class SenderService
-    def initialize(text, chat_id)
+    def initialize(text, chat_id, **args)
       @text = text
       @chat_id = chat_id
+      @type = args[:type] || 'text'
     end
 
-    def self.call(text, chat_id)
-      new(text, chat_id).call
+    def self.call(text, chat_id, **args)
+      new(text, chat_id, **args).call
     end
 
     def call
       set_avito
       set_account
-      url      = msg_url(1)
-      payload  = { message: { text: params[:msg] }, type: 'text' }
+      url = msg_url(1)
+      raise "Unknown message type: #{@type}" unless %w[text].include?(@type)
+
+      payload = { message: { text: text }, type: @type }
       fetch_and_parse(url, :post, payload)
       1
     end
