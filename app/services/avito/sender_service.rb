@@ -68,8 +68,7 @@ module Avito
       payload = {
         'uploadfile' => Faraday::UploadIO.new(@uploadfile.path, @uploadfile.content_type, @uploadfile.original_filename)
       }
-      headers = { 'Authorization' => "Bearer #{@avito.token}" }
-      binding.irb
+      headers  = { 'Authorization' => "Bearer #{@avito.token}" }
       response = @avito.connect_to(url, :post, payload, headers: headers, multipart: true)
 
       image        = JSON.parse response.body
@@ -79,6 +78,9 @@ module Avito
 
       { msg_type: result['type'], id: result['id'], published_at: Time.zone.at(result['created']),
         data: { image_url: result['content']['image']['sizes']['1280x960'] } }
+    rescue StandardError => error
+      Rails.logger.error "Avito::SenderService send_file_message error: #{error.message}"
+      error
     end
   end
 end
