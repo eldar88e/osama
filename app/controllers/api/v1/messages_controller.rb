@@ -49,7 +49,7 @@ module Api
         if conversation.source.to_sym == :telegram
           Telegram::SenderService.call(params[:message][:text], conversation.external_id)
         elsif conversation.source.to_sym == :avito
-          raise 'Unsupported conversation source: Avito'
+          Avito::SenderService.call(params[:message][:text], conversation.external_id)
         else
           # TODO: Implement other sources
           raise "Unsupported conversation source: #{conversation.source}"
