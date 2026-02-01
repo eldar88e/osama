@@ -14,6 +14,7 @@ module Api
       end
 
       def create
+        binding.irb
         if @resource.save
           render json: { data: serializer.new(@resource) }, status: :created
         else
