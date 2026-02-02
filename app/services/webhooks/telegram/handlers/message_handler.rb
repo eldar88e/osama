@@ -19,6 +19,8 @@ module Webhooks
           send_first_message(conversation.external_id) if message['text'] == '/start'
         rescue ActiveRecord::RecordNotUnique
           nil
+        rescue StandardError => e
+          binding.irb
         end
 
         private
