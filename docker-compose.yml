@@ -25,6 +25,8 @@ services:
     restart: always
 
   solid_queue:
+    tty: true
+    stdin_open: true
     image: crm
     build: .
     env_file: ./.env
