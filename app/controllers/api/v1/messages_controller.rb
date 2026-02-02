@@ -34,7 +34,7 @@ module Api
         @resource    = resource_class.new(conversation_id: params[:conversation_id])
         # authorize @resource
         conversation = Conversation.find(params[:conversation_id])
-        result       = send_to_service(conversation, params[:message][:text], params[:message][:upload_file])
+        result       = send_to_service(conversation, params[:message][:text], params[:message][:uploadfile])
         prepare_message(result)
       end
 
