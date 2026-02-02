@@ -31,10 +31,15 @@ module Api
       end
 
       def make_resource
-        @resource = resource_class.new(conversation_id: params[:conversation_id])
-        authorize @resource
+        @resource    = resource_class.new(conversation_id: params[:conversation_id])
+        # authorize @resource
         conversation = Conversation.find(params[:conversation_id])
-        result       = send_to_service(conversation)
+        result       = send_to_service(conversation, params[:message][:text], params[:message][:upload_file])
+        prepare_message(result)
+      end
+
+      # rubocop:disable Metrics/AbcSize
+      def prepare_message(result)
         if result.is_a?(Hash)
           @resource.text         = params[:message][:text] if params[:message][:text].present?
           @resource.external_id  = result[:id]
@@ -45,18 +50,17 @@ module Api
           render json: { errors: result&.message }, status: :unprocessable_content
         end
       end
+      # rubocop:enable Metrics/AbcSize
 
-      def send_to_service(conversation)
+      def send_to_service(conversation, text, upload_file = nil)
         if conversation.source.to_sym == :telegram
-          Telegram::SenderService.call(params[:message][:text], conversation.external_id)
+          Telegram::SenderService.call(text, conversation.external_id)
         elsif conversation.source.to_sym == :avito
-          Avito::SenderService.call(
-            params.dig(:message, :text), conversation.external_id, uploadfile: params[:message][:uploadfile]
-          )
-        else
-          # TODO: Implement other sources
-          raise "Unsupported conversation source: #{conversation.source}"
+          Avito::SenderService.call(text, conversation.external_id, uploadfile: upload_file)
         end
+        # else
+        #   # TODO: Implement other sources
+        #   raise "Unsupported conversation source: #{conversation.source}"
       end
     end
   end

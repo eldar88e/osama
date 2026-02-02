@@ -14,22 +14,22 @@ module Avito
     end
 
     def call
-      set_avito
-      set_account
+      prepare_avito
       return send_file_message if @uploadfile.present?
       raise "Unknown message type: #{@type}" unless ALLOWED_MESSAGE_TYPES.include?(@type)
 
-      url = message_url
-      result = fetch_and_parse(url, :post, { message: { text: @text }, type: @type })
-      raise 'Unknow message_id for Avito send message' if result&.dig('id').blank?
-
-      { msg_type: result['type'], id: result['id'], published_at: Time.zone.at(result['created']) }
-    rescue StandardError => error
-      Rails.logger.error "Avito::SenderService error: #{error.message}"
-      error
+      send_massage
+    rescue StandardError => e
+      Rails.logger.e "Avito::SenderService error: #{e.message}"
+      e
     end
 
     private
+
+    def prepare_avito
+      set_avito
+      set_account
+    end
 
     def message_url
       "https://api.avito.ru/messenger/v1/accounts/#{@account['id']}/chats/#{@chat_id}/messages"
@@ -63,24 +63,36 @@ module Avito
       error_notice t('avito.error.set_avito')
     end
 
-    def send_file_message
-      url     = "https://api.avito.ru/messenger/v1/accounts/#{@account['id']}/uploadImages"
-      payload = {
-        'uploadfile[]' => Faraday::UploadIO.new(@uploadfile.path, @uploadfile.content_type, @uploadfile.original_filename)
-      }
-      headers  = { 'Authorization' => "Bearer #{@avito.token}" }
-      response = @avito.connect_to(url, :post, payload, headers: headers, multipart: true)
+    def send_massage
+      url = message_url
+      result = fetch_and_parse(url, :post, { message: { text: @text }, type: @type })
+      raise 'Unknow message_id for Avito send message' if result&.dig('id').blank?
 
-      image        = JSON.parse response.body
-      image_id     = image.keys.first.to_s
-      url_img_send = "https://api.avito.ru/messenger/v1/accounts/#{@account['id']}/chats/#{@chat_id}/messages/image"
-      result = fetch_and_parse(url_img_send, :post, { image_id: image_id })
+      { msg_type: result['type'], id: result['id'], published_at: Time.zone.at(result['created']) }
+    end
+
+    def send_file_message
+      url = "https://api.avito.ru/messenger/v1/accounts/#{@account['id']}/uploadImages"
+      payload, headers = prepare_payload
+      response = @avito.connect_to(url, :post, payload, headers: headers, multipart: true)
+      image    = JSON.parse(response.body)
+      send_image_id(image.keys.first.to_s)
+    rescue StandardError => e
+      Rails.logger.error "Avito::SenderService send_file_message error: #{e.message}"
+      e
+    end
+
+    def prepare_payload
+      file = Faraday::UploadIO.new(@uploadfile.path, @uploadfile.content_type, @uploadfile.original_filename)
+      [{ 'uploadfile[]' => file }, { 'Authorization' => "Bearer #{@avito.token}" }]
+    end
+
+    def send_image_id(image_id)
+      url    = "https://api.avito.ru/messenger/v1/accounts/#{@account['id']}/chats/#{@chat_id}/messages/image"
+      result = fetch_and_parse(url, :post, { image_id: image_id })
 
       { msg_type: result['type'], id: result['id'], published_at: Time.zone.at(result['created']),
         data: { image_url: result['content']['image']['sizes']['1280x960'] } }
-    rescue StandardError => error
-      Rails.logger.error "Avito::SenderService send_file_message error: #{error.message}"
-      error
     end
   end
 end

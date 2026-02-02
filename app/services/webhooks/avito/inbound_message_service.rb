@@ -17,14 +17,11 @@ module Webhooks
 
       def call
         unless @payload['payload']['type'] == 'message'
-  raise StandardError, "Unknown Avito webhook type: #{@payload['payload']['type']}"
-end
+          raise StandardError, "Unknown Avito webhook type: #{@payload['payload']['type']}"
+        end
 
-          message = @payload.dig('payload', 'value')
-          save_message message
-        
-          
-        
+        message = @payload.dig('payload', 'value')
+        save_message message
       end
 
       private

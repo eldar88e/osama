@@ -25,31 +25,23 @@ class AvitoService
   private
 
   def send_request(url, method, payload, **args)
-    request =
-      if args[:multipart]
-        :multipart
-      elsif method == :get || args[:url_encoded]
-        :url_encoded
-      else
-        :json
-      end
-
-    connection = Faraday.new(url:) do |faraday|
-      faraday.request request
-      faraday.response :logger if Rails.env.development?
-      faraday.adapter Faraday.default_adapter
-    end
+    request    = make_request_payload(method, **args)
+    connection = prepare_connection(url, request)
 
     connection.send(method) do |req|
-      req.headers = args[:headers] || @headers
-      if args[:headers]
-        req.headers.merge!(args[:headers])
-      else
-        req.headers = @headers
-      end
+      prepare_headers(req, **args)
       if payload
         req.body = request == :multipart || args[:form] ? payload : payload.to_json
       end
+    end
+  end
+
+  def prepare_headers(req, **args)
+    # req.headers = args[:headers] || @headers
+    if args[:headers]
+      req.headers.merge!(args[:headers])
+    else
+      req.headers = @headers
     end
   end
 
@@ -80,5 +72,23 @@ class AvitoService
     Rails.logger.error "Failed to get token! Status: (#{response.status}), Error: #{response.body}"
     @token_status = response.status
     nil
+  end
+
+  def make_request_payload(method, **args)
+    if args[:multipart]
+      :multipart
+    elsif method == :get || args[:url_encoded]
+      :url_encoded
+    else
+      :json
+    end
+  end
+
+  def prepare_connection(url, request)
+    Faraday.new(url:) do |faraday|
+      faraday.request request
+      faraday.response :logger if Rails.env.development?
+      faraday.adapter Faraday.default_adapter
+    end
   end
 end
