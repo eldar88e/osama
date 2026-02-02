@@ -6,7 +6,7 @@ class ConversationChannel < ApplicationCable::Channel
     Rails.logger.warn params
     Rails.logger.error '#' * 30
     if conversation
-      stream_for conversation
+      stream_from "conversation_#{conversation.id}"
     else
       reject
     end
