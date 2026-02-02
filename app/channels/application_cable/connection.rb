@@ -9,7 +9,7 @@ module ApplicationCable
     private
 
     def find_verified_user
-      token = request.headers['Authorization']&.split&.last
+      token = request.params[:token]
 
       if token
         result  = Api::Authentication::JwtService.decode(token)
