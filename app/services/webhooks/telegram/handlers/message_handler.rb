@@ -11,7 +11,7 @@ module Webhooks
         end
 
         def call
-          message = payload['message'] || payload['edited_message']
+          message = @payload['message'] || @payload['edited_message']
           raise 'No message payload' unless message
 
           conversation = find_or_create_conversation(message)
@@ -19,13 +19,9 @@ module Webhooks
           send_first_message(conversation.external_id) if message['text'] == '/start'
         rescue ActiveRecord::RecordNotUnique
           nil
-        rescue StandardError => e
-          binding.irb
         end
 
         private
-
-        attr_reader :payload
 
         def find_or_create_conversation(message)
           tg_id = message.dig('chat', 'id')
