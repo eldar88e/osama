@@ -31,6 +31,9 @@ class Message < ApplicationRecord
   # rubocop:enable Rails/SkipsModelValidations
 
   def broadcast_widget_chat
-    CableBroadcastJob.perform_later("chat_#{id}", MessageSerializer.new(self).as_json)
+    CableBroadcastJob.perform_later(
+      "conversation_#{message.conversation_id}",
+      MessageSerializer.new(self).as_json
+    )
   end
 end
