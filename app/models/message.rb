@@ -11,7 +11,7 @@ class Message < ApplicationRecord
   validates :conversation_id, uniqueness: { scope: :external_id }
 
   after_create_commit :update_conversation_last_message_at
-  after_create_commit :broadcast_widget_chat, if: -> { outgoing? }
+  after_create_commit :broadcast_widget_chat, if: -> { incoming? }
 
   def strip_text
     self.text = text.strip
