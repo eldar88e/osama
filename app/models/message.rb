@@ -10,7 +10,8 @@ class Message < ApplicationRecord
   validates :direction, presence: true
   validates :conversation_id, uniqueness: { scope: :external_id }
 
-  after_commit :update_conversation_last_message_at, on: :create
+  after_create_commit :update_conversation_last_message_at
+  after_create_commit :broadcast_widget_chat, if: -> { outgoing? }
 
   def strip_text
     self.text = text.strip
@@ -28,4 +29,8 @@ class Message < ApplicationRecord
     conversation.update_column(:last_message_at, created_at)
   end
   # rubocop:enable Rails/SkipsModelValidations
+
+  def broadcast_widget_chat
+    CableBroadcastJob.perform_later("chat_#{id}", self.as_json)
+  end
 end
