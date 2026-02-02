@@ -20,7 +20,7 @@ module Avito
 
       send_massage
     rescue StandardError => e
-      Rails.logger.e "Avito::SenderService error: #{e.message}"
+      Rails.logger.error "Avito::SenderService error: #{e.message}"
       e
     end
 

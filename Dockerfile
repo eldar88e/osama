@@ -31,7 +31,7 @@ RUN gem install bundler -v "$(tail -n 1 Gemfile.lock)" \
 
 COPY . .
 
-RUN bundle exec bootsnap precompile --gemfile app/ lib/ config/
+# RUN bundle exec bootsnap precompile --gemfile app/ lib/ config/ TODO: uncoment!!!
 # RUN SECRET_KEY_BASE=dummy bundle exec rails assets:precompile
 
 # =========================
