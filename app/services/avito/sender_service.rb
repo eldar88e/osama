@@ -66,7 +66,7 @@ module Avito
     def send_massage
       url    = message_url
       result = fetch_and_parse(url, :post, { message: { text: @text }, type: @type })
-      binding.pry
+      binding.irb
       raise 'Unknow message_id for Avito send message' if result&.dig('id').blank?
 
       { msg_type: result['type'], id: result['id'], published_at: Time.zone.at(result['created']) }
