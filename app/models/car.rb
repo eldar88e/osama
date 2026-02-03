@@ -5,9 +5,8 @@ class Car < ApplicationRecord
   validates :model, presence: true
   validates :year,
             numericality: {
-              only_integer: true,
-              greater_than_or_equal_to: 1900,
-              less_than_or_equal_to: Time.current.year + 1
+              greater_than_or_equal_to: 1960,
+              less_than_or_equal_to: Time.current.year
             }
 
   def self.ransackable_attributes(_auth_object = nil)
