@@ -1,6 +1,7 @@
 class ConversationChannel < ApplicationCable::Channel
   def subscribed
     conversation = Conversation.find(params[:conversation_id])
+    # TODO: Add authorization check
     if conversation
       stream_from "conversation_#{conversation.id}"
     else

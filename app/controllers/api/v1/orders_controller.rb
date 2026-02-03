@@ -3,12 +3,10 @@ module Api
     class OrdersController < Api::V1::ApplicationController
       include Api::ResourceConcern
 
-      # rubocop:disable Rails/LexicallyScopedActionFilter
-      before_action :update_state, only: :update
-      # rubocop:enable Rails/LexicallyScopedActionFilter
+      before_action :change_state, only: :update
 
       def index
-        q = policy_scope(Order).order(:created_at).includes(:client).ransack(params[:q])
+        q = policy_scope(Order).order(created_at: :desc).includes(:client).ransack(params[:q])
 
         pagy, resources = pagy(q.result)
 
@@ -17,6 +15,10 @@ module Api
 
       def show
         render json: OrderShowSerializer.new(@resource)
+      end
+
+      def update
+        super
       end
 
       def statistics
@@ -38,7 +40,7 @@ module Api
       end
       # rubocop:enable Rails/StrongParametersExpect
 
-      def update_state
+      def change_state
         Api::Orders::ChangeStateService.call(@resource, params[:order][:state])
       end
     end

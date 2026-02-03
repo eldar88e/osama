@@ -9,9 +9,6 @@ RUN apk add --no-cache \
     vips-dev \
     yaml-dev \
     tzdata
-#    yarn
-#    ruby-dev
-#    libc6-compat
 
 ENV RAILS_ENV=production \
     BUNDLE_DEPLOYMENT=1 \
@@ -26,13 +23,9 @@ RUN gem install bundler -v "$(tail -n 1 Gemfile.lock)" \
  && bundle clean --force \
  && rm -rf /usr/local/bundle/cache
 
-# COPY package.json yarn.lock ./
-# RUN yarn install --frozen-lockfile --production
-
 COPY . .
 
 # RUN bundle exec bootsnap precompile --gemfile app/ lib/ config/ TODO: uncoment!!!
-# RUN SECRET_KEY_BASE=dummy bundle exec rails assets:precompile
 
 # =========================
 # Runtime layer

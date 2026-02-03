@@ -3,8 +3,8 @@
 
 services:
   app:
-    tty: true
-    stdin_open: true
+#    tty: true
+#    stdin_open: true
     image: crm
     build: .
     env_file: ./.env
