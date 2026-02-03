@@ -7,11 +7,11 @@ class User < ApplicationRecord
   enum :role, { user: 0, staff: 1, manager: 2, admin: 3 }
   enum :position, { other: 0, cleaner: 1, detailer: 2, upholsterer: 3, painter: 4 }
 
-  has_many :cars, foreign_key: :owner_id, inverse_of: :owner, dependent: :destroy
-  has_many :orders, foreign_key: :client_id, dependent: :destroy, inverse_of: :client
   has_many :api_sessions, dependent: :destroy
+  has_many :cars, foreign_key: :owner_id, inverse_of: :owner, dependent: :nullify
+  has_many :orders, foreign_key: :client_id, inverse_of: :client, dependent: :nullify
   has_many :conversations, dependent: :nullify
-  # has_many :investments
+  has_many :investments, dependent: :nullify
 
   before_validation :set_default_attributes, if: :new_record?
 
