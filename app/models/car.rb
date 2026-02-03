@@ -2,7 +2,6 @@ class Car < ApplicationRecord
   belongs_to :owner, class_name: 'User'
 
   validates :brand, presence: true
-  validates :model, presence: true
   validates :year,
             numericality: {
               greater_than_or_equal_to: 1960,
