@@ -4,9 +4,11 @@ class Car < ApplicationRecord
   validates :brand, presence: true
   validates :year,
             numericality: {
+              only_integer: true,
               greater_than_or_equal_to: 1960,
               less_than_or_equal_to: Time.current.year
-            }
+            },
+            allow_nil: true
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[id owner_id brand model license_plate]
