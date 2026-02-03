@@ -40,6 +40,7 @@ module Webhooks
             direction: :incoming,
             external_id: message['message_id'].to_s,
             text: message['text'],
+            # published_at: message['???'], TODO: add published_at if available
             payload: message
           )
         end

@@ -62,7 +62,7 @@ module Webhooks
         when 'image'
           { msg_type: 'image', data: { image_url: message.dig('content', 'image', 'sizes', '1280x960') } }
         else
-          { payload: message }
+          { text: 'Неизвестный тип сообщения', payload: message }
         end
       end
     end

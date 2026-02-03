@@ -10,6 +10,8 @@ class Message < ApplicationRecord
   validates :direction, presence: true
   validates :conversation_id, uniqueness: { scope: :external_id }
 
+  before_create :set_published_at, if: -> { published_at.blank? }
+
   after_create_commit :update_conversation_last_message_at
   after_create_commit :broadcast_widget_chat, if: -> { incoming? }
 
@@ -29,6 +31,10 @@ class Message < ApplicationRecord
     conversation.update_column(:last_message_at, created_at)
   end
   # rubocop:enable Rails/SkipsModelValidations
+
+  def set_published_at
+    self.published_at = Time.current
+  end
 
   def broadcast_widget_chat
     CableBroadcastJob.perform_later(
