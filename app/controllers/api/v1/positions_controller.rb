@@ -6,7 +6,7 @@ module Api
       private
 
       def position_params
-        params.expect(car: [:title])
+        params.expect(position: [:title])
       end
     end
   end
