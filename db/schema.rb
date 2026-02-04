@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_04_115446) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_04_141929) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -249,7 +249,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_04_115446) do
     t.string "ogrn"
     t.string "phone"
     t.string "photo_url"
-    t.integer "position", default: 0, null: false
+    t.bigint "position_id", null: false
     t.datetime "remember_created_at"
     t.datetime "reset_password_sent_at"
     t.string "reset_password_token"
@@ -261,6 +261,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_04_115446) do
     t.index ["avito_id"], name: "index_users_on_avito_id", unique: true
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["position_id"], name: "index_users_on_position_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.unique_constraint ["tg_id"], name: "index_users_on_tg_id"
   end
@@ -276,4 +277,5 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_04_115446) do
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "services"
   add_foreign_key "orders", "users", column: "client_id"
+  add_foreign_key "users", "positions"
 end

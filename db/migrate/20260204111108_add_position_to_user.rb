@@ -8,7 +8,5 @@ class AddPositionToUser < ActiveRecord::Migration[8.1]
       Position.create!(title: 'Другое') unless Position.exists?
       User.update_all(position_id: Position.first.id)
     end
-
-    change_column_null :users, :position_id, false
   end
 end
