@@ -14,6 +14,10 @@ module Api
         base_params << :password if action_name == 'create'
         params.expect(user: base_params)
       end
+
+      def resource_includes
+        [:position]
+      end
     end
   end
 end

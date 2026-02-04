@@ -9,7 +9,9 @@ module Api
     end
 
     def index
-      q = policy_scope(resource_class).order(:created_at).ransack(params[:q])
+      scope = policy_scope(resource_class)
+      scope = scope.includes(*resource_includes) if resource_includes.any?
+      q = scope.order(:created_at).ransack(params[:q])
 
       pagy, resources = pagy(q.result)
 
@@ -67,6 +69,10 @@ module Api
 
     def error_response
       render json: { errors: 'ar', message: @resource.errors.full_messages.join(', ') }, status: :unprocessable_content
+    end
+
+    def resource_includes
+      []
     end
   end
 end

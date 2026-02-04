@@ -26,7 +26,7 @@ class User < ApplicationRecord
 
   ransacker :full_name do
     Arel.sql(
-      "concat_ws(' ', middle_name, first_name, last_name)"
+      "concat_ws(' ', last_name, first_name, middle_name)"
     )
   end
 
