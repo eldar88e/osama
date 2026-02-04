@@ -45,6 +45,6 @@ class User < ApplicationRecord
   end
 
   def set_default_position
-    self.position = Position.create_or_find_by!(title: 'Другое') if position.blank?
+    self.position = Position.find_or_create_by!(title: 'Другое') if position.blank?
   end
 end
