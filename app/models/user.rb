@@ -5,13 +5,14 @@ class User < ApplicationRecord
          :rememberable, :validatable, :confirmable
 
   enum :role, { user: 0, staff: 1, manager: 2, admin: 3 }
-  enum :position, { other: 0, cleaner: 1, detailer: 2, upholsterer: 3, painter: 4 }
 
   has_many :api_sessions, dependent: :destroy
   has_many :cars, foreign_key: :owner_id, inverse_of: :owner, dependent: :nullify
   has_many :orders, foreign_key: :client_id, inverse_of: :client, dependent: :nullify
   has_many :conversations, dependent: :nullify
   has_many :investments, dependent: :nullify
+
+  belongs_to :position
 
   before_validation :set_default_attributes, if: :new_record?
 

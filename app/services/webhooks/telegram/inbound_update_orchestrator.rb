@@ -22,7 +22,7 @@ module Webhooks
           direction: :incoming,
           external_id: payload['message_id'].to_s,
           text: 'Неизвестный тип сообщения',
-          # published_at: message['???'], TODO: add published_at if available
+          published_at: Time.zone.at(message['date']),
           payload: payload
         )
       end

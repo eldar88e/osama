@@ -12,6 +12,7 @@ namespace :api do
     end
     get :statistics, to: 'orders#statistics'
     resources :cars, except: %i[new edit]
+    resources :positions, except: %i[new edit]
     resources :contractors, except: %i[new edit]
     resources :services, except: %i[new edit]
     resources :expenses, except: %i[new edit]

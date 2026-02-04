@@ -39,8 +39,8 @@ module Webhooks
             conversation: conversation,
             direction: :incoming,
             external_id: message['message_id'].to_s,
-            text: message['text'],
-            # published_at: message['???'], TODO: add published_at if available
+            text: message['text'] || message['caption'] || 'Неизвестный тип сообщения',
+            published_at: Time.zone.at(message['date']),
             payload: message
           )
         end
