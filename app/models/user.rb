@@ -15,7 +15,6 @@ class User < ApplicationRecord
   belongs_to :position
 
   before_validation :set_default_attributes, if: :new_record?
-  before_validation :set_default_position, if: :new_record?
 
   def admin_or_manager_or_staff?
     admin? || manager? || staff?
@@ -40,11 +39,12 @@ class User < ApplicationRecord
   end
 
   def set_default_attributes
-    self.email    = "user_#{User.last.id + 1}@#{ENV.fetch('EMAIL_HOST', ENV.fetch('HOST', 'mail.ru'))}" if email.blank?
     self.password = Devise.friendly_token.first(8) if password.blank?
+    self.position = Position.find_or_create_by!(title: 'Другое') if position.blank?
+    set_default_email
   end
 
-  def set_default_position
-    self.position = Position.find_or_create_by!(title: 'Другое') if position.blank?
+  def set_default_email
+    self.email = "user_#{User.last.id + 1}@#{ENV.fetch('EMAIL_HOST', ENV.fetch('HOST', 'mail.ru'))}" if email.blank?
   end
 end

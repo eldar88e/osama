@@ -1,7 +1,6 @@
 module Webhooks
   module Telegram
     class InboundUpdateOrchestrator
-      # rubocop:disable Metrics/MethodLength
       def self.call(payload)
         if payload['message'] || payload['edited_message']
           Webhooks::Telegram::Handlers::MessageHandler.call(payload)
@@ -12,7 +11,6 @@ module Webhooks
           Rails.logger.error "Unknown Telegram update: #{payload.keys}"
         end
       end
-      # rubocop:enable Metrics/MethodLength
 
       private
 
