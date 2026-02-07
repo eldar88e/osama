@@ -27,7 +27,6 @@ module Api
 
       def cars_waiting
         OrderItem
-          .published
           .where(state: WAITING_STATES)
           .distinct
           .count(:car_id)
