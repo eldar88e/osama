@@ -18,7 +18,9 @@ module Api
       end
 
       def create
-        @resource = Order.find_or_create_by!(draft: true)
+        args = { draft: true }
+        args[:client_id] = params[:order][:client_id] if params[:order][:client_id].present?
+        @resource = Order.find_or_create_by!(args)
 
         render json: OrderShowSerializer.new(@resource)
       end
