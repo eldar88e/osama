@@ -6,7 +6,7 @@ module Api
       before_action :change_state, only: :update
 
       def index
-        q = policy_scope(Order).order(created_at: :desc).includes(:client).ransack(params[:q])
+        q = policy_scope(Order).published.order(created_at: :desc).includes(:client).ransack(params[:q])
 
         pagy, resources = pagy(q.result)
 
