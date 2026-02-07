@@ -27,6 +27,7 @@ module Api
       end
 
       def update
+        binding.irb
         @resource.draft = @resource.order_items.exists?
         if @resource.update(resource_params)
           render json: serializer.new(@resource)
