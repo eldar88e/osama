@@ -27,6 +27,7 @@ module Api
 
       def cars_waiting
         OrderItem
+          .published
           .where(state: WAITING_STATES)
           .distinct
           .count(:car_id)
@@ -42,14 +43,15 @@ module Api
       def money_in_work
         OrderItem
           .where(paid: false)
-          .sum(
-            <<~SQL.squish
-              price +
-              materials_price +
-              delivery_price +
-              performer_fee
-            SQL
-          )
+          .sum(:price)
+          # .sum(
+          #   <<~SQL.squish
+          #     price +
+          #     materials_price +
+          #     delivery_price +
+          #     performer_fee
+          #   SQL
+          # )
       end
 
       def new_orders_week
