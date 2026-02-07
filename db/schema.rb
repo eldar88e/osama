@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_05_003345) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_07_111540) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -176,10 +176,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_05_003345) do
   create_table "orders", force: :cascade do |t|
     t.datetime "appointment_at"
     t.datetime "cancelled_at"
-    t.bigint "client_id", null: false
+    t.bigint "client_id"
     t.string "comment"
     t.datetime "completed_at"
     t.datetime "created_at", null: false
+    t.boolean "draft", default: true, null: false
     t.decimal "expense", precision: 12, scale: 2, default: "0.0", null: false
     t.boolean "paid", default: false, null: false
     t.decimal "price", precision: 12, scale: 2, default: "0.0", null: false
@@ -187,6 +188,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_05_003345) do
     t.string "state", default: "initial", null: false
     t.datetime "updated_at", null: false
     t.index ["client_id"], name: "index_orders_on_client_id"
+    t.index ["draft"], name: "index_orders_on_draft"
     t.index ["paid"], name: "index_orders_on_paid"
     t.index ["state"], name: "index_orders_on_state"
   end

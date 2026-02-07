@@ -3,7 +3,7 @@ class Order < ApplicationRecord
 
   include OrderStateMachine
 
-  belongs_to :client, class_name: 'User'
+  belongs_to :client, class_name: 'User', optional: true
 
   has_many :order_items, dependent: :destroy
   has_one :event, as: :eventable, dependent: :destroy
@@ -12,10 +12,14 @@ class Order < ApplicationRecord
 
   validates :price, numericality: { greater_than_or_equal_to: 0 }
   validates :expense, numericality: { greater_than_or_equal_to: 0 }
-  validates :appointment_at, presence: true
+  validates :appointment_at, presence: true, unless: :draft?
+  validates :client_id, presence: true, unless: :draft?
 
-  after_create :create_event!
-  after_update :update_event!
+  # after_create :create_event!
+  after_update :update_event!, unless: :draft?
+
+  scope :drafts, -> { where(draft: true) }
+  scope :published, -> { where(draft: false) }
 
   def all_items_paid?
     order_items.exists? && order_items.where(paid: false).none?
@@ -54,6 +58,14 @@ class Order < ApplicationRecord
   end
 
   def update_event!
-    event.update!(starts_at: appointment_at) if previous_changes['appointment_at'].present?
+    # event.update!(starts_at: appointment_at) if previous_changes['appointment_at'].present?
+
+    current_event = Event.find_or_create_by!(eventable: self) do |event|
+      event.starts_at = appointment_at
+      event.title = 'Запись'
+      event.kind = :primary
+    end
+
+    current_event.update!(starts_at: appointment_at)
   end
 end

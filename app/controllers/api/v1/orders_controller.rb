@@ -17,8 +17,19 @@ module Api
         render json: OrderShowSerializer.new(@resource)
       end
 
+      def create
+        @resource = Order.find_or_create_by!(draft: true)
+
+        render json: OrderShowSerializer.new(@resource)
+      end
+
       def update
-        super
+        @resource.draft = false
+        if @resource.update(resource_params)
+          render json: serializer.new(@resource)
+        else
+          error_response
+        end
       end
 
       def statistics
