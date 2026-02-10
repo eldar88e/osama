@@ -3,6 +3,17 @@ module Api
     class OrderItemsController < Api::V1::ApplicationController
       include Api::ResourceConcern
 
+      def create
+        @resource = resource_class.new(resource_params)
+
+        if @resource.save
+          @resource.order.update!(draft: false)
+          render json: serializer.new(@resource), status: :created
+        else
+          error_response
+        end
+      end
+
       private
 
       def authorize_resource!
