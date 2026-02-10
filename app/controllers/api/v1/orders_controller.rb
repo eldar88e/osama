@@ -21,7 +21,7 @@ module Api
         args = { draft: true }
         args[:client_id] = params[:order][:client_id] if params[:order][:client_id].present?
         @resource = Order.find_or_create_by!(args)
-        @resource.update!(create_at: Time.current)
+        @resource.update!(created_at: Time.current)
 
         render json: OrderShowSerializer.new(@resource)
       end
