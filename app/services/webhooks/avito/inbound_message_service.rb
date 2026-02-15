@@ -47,7 +47,7 @@ module Webhooks
       def create_message(conversation, message)
         start_data = {
           conversation: conversation,
-          direction: :incoming,
+          direction: message['user_id'] == message['author_id'] ? :outgoing : :incoming,
           external_id: message['id'],
           published_at: Time.zone.at(message['created'])
         }

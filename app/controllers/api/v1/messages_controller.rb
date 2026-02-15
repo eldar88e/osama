@@ -15,7 +15,7 @@ module Api
 
       def create
         make_resource
-        if @resource.save
+        if @conversation.source.to_sym == :avito || @resource.save
           render json: { data: serializer.new(@resource) }, status: :created
         else
           render json: { errors: @resource.errors.full_messages }, status: :unprocessable_content
@@ -31,11 +31,11 @@ module Api
       end
 
       def make_resource
-        @resource    = resource_class.new(conversation_id: params[:conversation_id])
+        @resource     = resource_class.new(conversation_id: params[:conversation_id])
         # authorize @resource
-        conversation = Conversation.find(params[:conversation_id])
-        result       = send_to_service(conversation, params[:message][:text], params[:message][:uploadfile])
-        prepare_message(result)
+        @conversation = Conversation.find(params[:conversation_id])
+        result        = send_to_service(params[:message][:text], params[:message][:uploadfile])
+        prepare_message(result) if @conversation.source.to_sym != :avito
       end
 
       # rubocop:disable Metrics/AbcSize
@@ -52,15 +52,15 @@ module Api
       end
       # rubocop:enable Metrics/AbcSize
 
-      def send_to_service(conversation, text, upload_file = nil)
-        if conversation.source.to_sym == :telegram
-          Telegram::SenderService.call(text, conversation.external_id)
-        elsif conversation.source.to_sym == :avito
-          Avito::SenderService.call(text, conversation.external_id, uploadfile: upload_file)
+      def send_to_service(text, upload_file = nil)
+        if @conversation.source.to_sym == :telegram
+          Telegram::SenderService.call(text, @conversation.external_id)
+        elsif @conversation.source.to_sym == :avito
+          Avito::SenderService.call(text, @conversation.external_id, uploadfile: upload_file)
         end
         # else
         #   # TODO: Implement other sources
-        #   raise "Unsupported conversation source: #{conversation.source}"
+        #   raise "Unsupported @conversation source: #{@conversation.source}"
       end
     end
   end
