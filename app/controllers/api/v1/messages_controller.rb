@@ -16,7 +16,8 @@ module Api
       def create
         make_resource
         if @conversation.source.to_sym == :avito || @resource.save
-          render json: { data: serializer.new(@resource) }, status: :created
+          # render json: { data: serializer.new(@resource) }, status: :created
+          head :created
         else
           render json: { errors: @resource.errors.full_messages }, status: :unprocessable_content
         end
