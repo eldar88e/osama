@@ -26,18 +26,17 @@ module Api
 
           meta = @conversation.meta
 
-          User.new(
-            first_name: meta['first_name'],
-            last_name: meta['last_name'],
-            tg_id: meta['telegram_user_id'],
-            username: meta['username'],
-            photo_url: meta['photo_url']
-          )
+          User.find_or_initialize_by(tg_id: meta['telegram_user_id']) do |user|
+            user.first_name = meta['first_name']
+            user.last_name = meta['last_name']
+            user.username = meta['username']
+            user.photo_url = meta['photo_url']
+          end
         end
 
         def save_user_from_avito
           meta = @conversation.meta
-          User.new(avito_id: meta['author_id'])
+          User.find_or_initialize_by(avito_id: meta['author_id'])
         end
       end
     end
