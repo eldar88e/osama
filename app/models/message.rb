@@ -13,7 +13,7 @@ class Message < ApplicationRecord
   before_create :set_published_at, if: -> { published_at.blank? }
 
   after_create_commit :update_conversation_last_message_at
-  # after_create_commit :broadcast_widget_chat, if: -> { incoming? }
+  after_create_commit :broadcast_widget_chat # , if: -> { incoming? }
 
   def strip_text
     self.text = text.strip
