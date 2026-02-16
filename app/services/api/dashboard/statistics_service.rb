@@ -55,7 +55,7 @@ module Api
 
       def new_orders_week
         Order
-          .where(created_at: 1.week.ago..Time.current)
+          .where(created_at: 1.week.ago..Time.current, draft: false)
           .count
       end
     end
