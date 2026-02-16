@@ -8,7 +8,7 @@ module Api
           # TODO: Add authorization check
           user = set_user
           if user.save
-            @conversation.update(user: user, last_message_at: Time.current)
+            @conversation.update(user: user) # last_message_at: Time.current
             AvitoUserJob.perform_later(user_id: user.id, chat_id: @conversation.external_id)
             render json: { data: UserSerializer.new(user) }, status: :created
           else
