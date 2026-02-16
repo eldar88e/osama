@@ -39,8 +39,10 @@ module Webhooks
           source: :avito,
           external_id: message['chat_id']
         ) do |c|
-          c.user = User.find_by(avito_id: message['author_id'])
-          c.meta = { author_id: message['author_id'] }
+          user = User.find_by(avito_id: message['author_id'])
+          c.user = user
+          c.meta = message
+          AvitoUserJob.perform_later(user_id: user.id, chat_id: message['chat_id']) if user.present?
         end
       end
 

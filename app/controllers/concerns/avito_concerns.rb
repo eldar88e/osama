@@ -26,15 +26,15 @@ module AvitoConcerns
   end
 
   def set_account
-    @account = fetch_cached("account_#{@store.id}", 6.hours, url: 'https://api.avito.ru/core/v1/accounts/self')
+    @account = fetch_cached(:account_avito, 1.day, url: 'https://api.avito.ru/core/v1/accounts/self')
   end
 
   def set_rate
-    @rate = fetch_cached("rate_#{@store.id}", 1.hour, url: 'https://api.avito.ru/ratings/v1/info')
+    @rate = fetch_cached(:rate_avito, 1.hour, url: 'https://api.avito.ru/ratings/v1/info')
   end
 
   def set_auto_load
-    @auto_load = fetch_cached("auto_load_#{@store.id}", 30.minutes, url: 'https://api.avito.ru/autoload/v1/profile')
+    @auto_load = fetch_cached(:avito_auto_load, 30.minutes, url: 'https://api.avito.ru/autoload/v1/profile')
   end
 
   def fetch_cached(key, expires_in = 5.minutes, **args)
@@ -43,12 +43,5 @@ module AvitoConcerns
     end
     Rails.cache.delete(key) if result.is_a?(Hash) && result.key?(:error)
     result
-  end
-
-  def set_stores
-    cache_key = "user_#{current_user.id}_active_stores"
-    @stores   = Rails.cache.fetch(cache_key, expires_in: 1.hour) do
-      current_user.stores.active.select(:id, :manager_name).as_json
-    end
   end
 end
