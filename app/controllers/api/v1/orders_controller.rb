@@ -44,7 +44,7 @@ module Api
       # rubocop:disable Rails/StrongParametersExpect
       def order_params
         params.require(:order).permit(
-          :client_id, :state, :comment, :appointment_at,
+          :client_id, :state, :comment, :appointment_at, :deposit, :paid, :paid_at,
           order_items_attributes: [
             :id, :service_id, :car_id, :state, :price, :paid, :comment, :materials_price,
             :materials_comment, :delivery_price, :delivery_comment, :_destroy,

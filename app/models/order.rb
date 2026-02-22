@@ -15,6 +15,7 @@ class Order < ApplicationRecord
   validates :appointment_at, presence: true, unless: :draft?
   validates :client_id, presence: true, unless: :draft?
 
+  before_validation {self.paid_at = Time.current if paid? && paid_at.blank? }
   # after_create :create_event!
   after_update :update_event!, unless: :draft?
 
