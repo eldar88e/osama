@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_07_111540) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_16_215223) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -180,9 +180,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_07_111540) do
     t.string "comment"
     t.datetime "completed_at"
     t.datetime "created_at", null: false
+    t.decimal "deposit", precision: 12, scale: 2, default: "0.0", null: false
     t.boolean "draft", default: true, null: false
     t.decimal "expense", precision: 12, scale: 2, default: "0.0", null: false
     t.boolean "paid", default: false, null: false
+    t.datetime "paid_at"
     t.decimal "price", precision: 12, scale: 2, default: "0.0", null: false
     t.datetime "processing_at"
     t.string "state", default: "initial", null: false
