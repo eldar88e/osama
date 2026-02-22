@@ -45,7 +45,7 @@ class Order < ApplicationRecord
   end
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[id state paid price appointment_at]
+    %w[id state paid price appointment_at processing_at]
   end
 
   def self.ransackable_associations(_auth_object = nil)
